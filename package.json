@@ -17,6 +17,9 @@
       "2d",
       "websocket"
   ],
+  "engines": {
+      "node": "~10"
+  },
   "author": "atlemagnussen",
   "license": "ISC",
   "bugs": {
