@@ -1,0 +1,33 @@
+{
+  "name": "airhockey-socket",
+  "version": "1.0.0",
+  "description": "2d canvas airhockey over websocket multiplayer",
+  "main": "index.js",
+  "scripts": {
+      "deploy": "gcloud app deploy",
+      "start": "node app.js"
+  },
+  "repository": {
+      "type": "git",
+      "url": "git+https://github.com/atlemagnussen/airhockey-socket.git"
+  },
+  "keywords": [
+      "html5",
+      "canvas",
+      "2d",
+      "websocket"
+  ],
+  "author": "atlemagnussen",
+  "license": "ISC",
+  "bugs": {
+      "url": "https://github.com/atlemagnussen/airhockey-socket/issues"
+  },
+  "homepage": "https://github.com/atlemagnussen/airhockey-socket#readme",
+  "dependencies": {
+      "express": "^4.17.1",
+      "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0"
+  }
+}
