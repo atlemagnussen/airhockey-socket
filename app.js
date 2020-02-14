@@ -18,7 +18,6 @@ this.webSocketServer = new WebSocket.Server({ server: httpServer });
 this.webSocketServer.on("connection", (ws) => {
     console.log("a user connected");
     ws.on("message", (msg) => {
-        console.log(`webSocketServer.clients.size=${this.webSocketServer.clients.size}`);
         this.webSocketServer.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) { //client !== ws if not send to self
                 client.send(msg);
