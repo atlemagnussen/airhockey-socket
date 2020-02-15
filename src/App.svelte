@@ -1,5 +1,7 @@
 <script>
     import { curRoute } from "./store";
+    import Circle from "./components/Circle.svelte";
+    import DualStateCircle from "./components/DualStateCircle.svelte";
     import Link from "./components/Link.svelte";
     import Container from "./Container.svelte";
     import { onMount } from "svelte";
@@ -40,6 +42,7 @@
                 <div class="logo">AHS</div>
             </Link>
             <Link page="{{ path: '/about', name: 'About' }}" />
+            <DualStateCircle></DualStateCircle>
         </nav>
     </header>
 

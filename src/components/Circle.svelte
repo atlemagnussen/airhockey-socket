@@ -1,32 +1,28 @@
 <script>
-    let active = false;
-    let toggleActive = () => {
-        active = !active;
-    };
+    export let onclick = () => {};
+    export let background = "--main-color";
+    export let color = "--secondary-text";
+    export let borderColor = "--grey-dark";
 </script>
-
 <style>
-    span {
+    div {
         display: inline-block;
         height: 2.5rem;
         width: 2.5rem;
         line-height: 2.5rem;
         vertical-align: middle;
         border-radius: 50%;
-        background: var(--main-color);
-        color: var(--secondary-text);
         text-align: center;
         font-family: "Roboto Mono", monospace;
         cursor: pointer;
-        border: 1px solid white;
+        border: 1px solid;
     }
-    span:hover,
-    span.active {
-        background: var(--secondary-color);
-        border-color: var(--main-color);
-    }
+    
 </style>
 
-<span on:click="{toggleActive}" class:active>
+<div on:click="{onclick}" 
+    style="background-color: var({background});
+            color: var({color});
+            border-color: var({borderColor})">
     <slot>*</slot>
-</span>
+</div>
