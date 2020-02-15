@@ -8,3 +8,7 @@ First try is [Google Cloud Flexible App Engine](https://cloud.google.com/appengi
 ```sh
 gcloud app deploy
 ```
+read logs
+```sh
+gcloud app logs tail -s default
+```
