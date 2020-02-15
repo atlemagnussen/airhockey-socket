@@ -25,7 +25,8 @@
     --cyan-dark: rgb(0, 139, 139);
     --cyan-hover: rgba(0, 139, 139, 0.5);
 
-    --red-main: rgb(139, 0, 0);
+    --red: rgb(255, 0, 0);
+    --red-dark: rgb(139, 0, 0);
     --red-light: rgb(195, 20, 20, 0.5);
     --red-extra-light: rgb(195, 20, 20, 0.2);
     --red-strong: rgb(195, 20, 20);
@@ -34,6 +35,9 @@
     --green-main: rgb(0, 255, 0);
     --green-dark: rgb(34, 139, 34);
     --green-extra-dark: rgb(0, 100, 0);
+
+    --yellow: rgb(255, 255, 0);
+    --yellow-dark: rgb(139, 139, 0);
 
     --cardinal: rgb(196, 30, 58);
     --cardinal-blue: rgb(196, 30, 90);

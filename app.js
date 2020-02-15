@@ -4,11 +4,11 @@ const express = require("express");
 const app = express();
 const httpServer = require("http").createServer(app);
 const WebSocket = require("ws");
-const wwwpath = path.join(__dirname, "www");
+const wwwpath = path.join(__dirname, "public");
 const wwwindex = path.join(wwwpath, "index.html");
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 5000;
 
-app.use(express.static("www"));
+app.use(express.static("public"));
 app.get("/", (req, res) => {
     res.sendFile(wwwindex);
 });

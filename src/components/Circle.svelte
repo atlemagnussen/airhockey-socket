@@ -1,8 +1,10 @@
 <script>
     export let onclick = () => {};
+    export let cursor = "unset";
     export let background = "--main-color";
     export let color = "--secondary-text";
-    export let borderColor = "--grey-dark";
+    export let border = null
+    $: borderColor = border !== null ? border : background;
 </script>
 <style>
     div {
@@ -14,7 +16,6 @@
         border-radius: 50%;
         text-align: center;
         font-family: "Roboto Mono", monospace;
-        cursor: pointer;
         border: 1px solid;
     }
     
@@ -23,6 +24,7 @@
 <div on:click="{onclick}" 
     style="background-color: var({background});
             color: var({color});
-            border-color: var({borderColor})">
+            border-color: var({borderColor});
+            cursor: {cursor}">
     <slot>*</slot>
 </div>

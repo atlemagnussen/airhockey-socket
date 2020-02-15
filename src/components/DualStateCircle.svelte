@@ -5,15 +5,18 @@
         state = !state;
     };
     $: background = state ? "--red-trans" : "--purple-main";
+    $: color = state ? "--purple-main" : "--red-trans";
 </script>
 <style>
-    /* div:hover,
-    div.active {
-        background: var(--secondary-color);
-        border-color: var(--main-color);
+    /* span {
+        cursor: pointer;
     } */
 </style>
 
-<Circle onclick="{toggleState}" background="{background}">
+<Circle onclick="{toggleState}" 
+    background="{background}"
+    color="{color}"
+    cursor="pointer"
+    >
     <span>S</span>
 </Circle>
