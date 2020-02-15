@@ -15,18 +15,31 @@ app.get("/", (req, res) => {
 
 // web socket
 this.webSocketServer = new WebSocket.Server({ server: httpServer });
-this.webSocketServer.on("connection", (ws) => {
-    console.log("a user connected");
+this.webSocketServer.on("connection", (ws, req) => {
+    console.log(`req.connection.remoteAddress=${req.connection.remoteAddress}`);
+    let ip = req.connection.remoteAddress;
+    if (!ip) {
+        const forwardHeaders = req.headers["x-forwarded-for"];
+        console.log(`forwardHeaders=${JSON.stringify(forwardHeaders)}`);
+        ip = forwardHeaders.split(/\s*,\s*/)[0];
+    }
+    console.log(`Connected client ip ${ip}`);
     ws.on("message", (msg) => {
-        this.webSocketServer.clients.forEach((client) => {
-            if (client.readyState === WebSocket.OPEN) { //client !== ws if not send to self
-                client.send(msg);
-            }
-        });
+        ws.send(msg);
+        // this.webSocketServer.clients.forEach((client) => {
+        //     if (client.readyState === WebSocket.OPEN) { //client !== ws if not send to self
+        //         client.send(msg);
+        //     }
+        // });
         console.log(`received msg ${JSON.stringify(msg)}`);
     });
+    ws.on("close", (code, reason) => {
+        console.log(`client closed, code=${code}, reason=${reason}`);
+    });
 });
-
+this.webSocketServer.on("error", (err) => {
+    console.log(err);
+});
 
 httpServer.listen(PORT, function(){
     console.log(`listening on *:${PORT}`);
