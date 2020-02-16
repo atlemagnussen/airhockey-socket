@@ -2,12 +2,8 @@
     import { onDestroy } from "svelte";
     import { socketState } from "../store";
     import Circle from "./Circle.svelte";
-    const states = {
-        0: "connecting",
-        1: "open",
-        2: "closing",
-        3: "closed"
-    };
+    import states from "../services/socketStates.js";
+    
     const backgroundColors = {
         0: "--yellow-dark",
         1: "--green-dark",
