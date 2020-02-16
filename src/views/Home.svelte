@@ -34,9 +34,12 @@
         flex-direction: column;
         overflow-y: auto;
     }
+    .ws-host {
+        width: 300px;
+    }
     .text-output {
-        background: white;
-        color: black;
+        color: white;
+        background: black;
         width: 768px;
         flex-basis: 70vh;
         flex-grow: 1;
@@ -49,7 +52,7 @@
     }
 </style>
 <article>
-    <h1>Welcome to AirHockey Socket</h1>
+    <h1>Welcome to AirSockey</h1>
     <div>
         {#if $socketState === 3}
             <button on:click="{connect}">Connect</button>
@@ -57,7 +60,7 @@
                 <option>wss</option>
                 <option>ws</option>
             </select>
-            <input bind:value={wsHost} autocomplete="true" list="dtWsUrls">
+            <input bind:value={wsHost} autocomplete="true" list="dtWsUrls" class="ws-host">
         {:else if $socketState === 1}
             <button on:click="{socket.disconnect}">Disconnect</button>
             <input bind:value={msg} placeholder="message">
