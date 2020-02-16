@@ -18,11 +18,16 @@
 </script>
 
 <style>
-    #textOutput {
+    .text-output {
         background: white;
         color: black;
         width: 500px;
         height: 500px;
+    }
+    @media only screen and (max-width: 768px) {
+        .text-output {
+            width: 100%;
+        }
     }
 </style>
 <h1>Welcome to AirHockey Socket</h1>
@@ -35,4 +40,4 @@
 <input bind:value={msg} placeholder="message">
 <button on:click="{submitMsg}">Submit</button>
 
-<div id="textOutput">{@html msgs}</div>
+<div class="text-output">{@html msgs}</div>
