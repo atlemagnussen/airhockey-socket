@@ -1,13 +1,16 @@
 import { socketState } from "../store";
 let socket, callback;
 class SocketManager {
-    connect() {
+    connect(url) {
         if (!socket || socket.readyState === socket.CLOSED) {
-            var url = "ws://";
-            if (location.protocol === "https:") {
-                url = "wss://";
+            if (!url) {
+                url = "ws://";
+                if (location.protocol === "https:") {
+                    url = "wss://";
+                }
+                url += location.host;
             }
-            url += location.host;
+            
             socket = new WebSocket(url);
             socketState.set(socket.readyState);
             socket.addEventListener("error", () => {

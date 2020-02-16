@@ -5,6 +5,13 @@
     let msg = "hello";
     let msgs = "";
     let start;
+    let wsProtocol;
+    let wsUrl;
+    let wsHost;
+    let connect = () => {
+        wsUrl = `${wsProtocol}://${wsHost}`;
+        socket.connect(wsUrl);
+    };
     let submitMsg = () => {
         start = new Date();
         socket.send(msg);
@@ -45,16 +52,26 @@
     <h1>Welcome to AirHockey Socket</h1>
     <div>
         {#if $socketState === 3}
-            <button on:click="{socket.connect}">Connect</button>
+            <button on:click="{connect}">Connect</button>
+            <select bind:value="{wsProtocol}">
+                <option>wss</option>
+                <option>ws</option>
+            </select>
+            <input bind:value={wsHost} autocomplete="true" list="dtWsUrls">
         {:else if $socketState === 1}
             <button on:click="{socket.disconnect}">Disconnect</button>
             <input bind:value={msg} placeholder="message">
             <button on:click="{submitMsg}">Submit</button>
+            <span>{wsUrl}</span>
         {:else}
             <p>{stateText}</p>
         {/if}
     </div>
     
-
     <div class="text-output">{@html msgs}</div>
+
+    <datalist id="dtWsUrls">
+        <option value="airhockey-socket.appspot.com"></option>
+        <option value="localhost:5000"></option>
+    </datalist>
 </article>
