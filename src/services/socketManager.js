@@ -1,5 +1,8 @@
 import { socketState } from "../store";
-let socket, callback;
+// import { fromEvent } from "rxjs";
+
+let socket;
+let msgObservable;
 class SocketManager {
     connect(url) {
         if (!socket || socket.readyState === socket.CLOSED) {
@@ -25,10 +28,11 @@ class SocketManager {
                 console.log("WebSocket connection closed");
                 socketState.set(socket.readyState);
             });
-            socket.addEventListener("message", (msg) => {
-                callback(msg.data);
-                socketState.set(socket.readyState);
-            });
+
+            // msgObservable = fromEvent(socket, "message");
+            // msgObservable.subscribe(() => {
+            //     socketState.set(socket.readyState);
+            // });
         } else {
             console.log("web socket is already open. readyState=" + socket.readyState);
         }
@@ -46,19 +50,11 @@ class SocketManager {
     send(msg) {
         if (socket && socket.readyState === socket.OPEN) {
             socket.send(msg);
-        } else {
-            let state = 3;
-            if (socket && socket.readyState)
-                state = socket.readyState;
-            callback(`state is ${state}`);
         }
     }
 
-    setCallback(cb) {
-        callback = cb;
-    }
-    respond(msg) {
-        callback(msg);
+    subscribe(fn) {
+        msgObservable.subscribe(fn);
     }
 }
 

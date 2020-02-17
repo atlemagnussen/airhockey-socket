@@ -3,6 +3,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import livereload from "rollup-plugin-livereload";
 import { terser } from "rollup-plugin-terser";
+import virtual from "@rollup/plugin-virtual";
 import serve from "rollup-plugin-serve";
 
 const production = !process.env.ROLLUP_WATCH;
@@ -28,6 +29,16 @@ export default {
             dedupe: ["svelte"]
         }),
         commonjs(),
+        // virtual({
+        //     "rxjs": `
+        //         import { fromEvent } from "rxjs";
+        //         export const { fromEvent } = rxjs;
+        //     `
+        //     "rxjs/operators": `
+        //        import rxjs from 'rxjs'; 
+        //        export const {filter, map, concatMap, tap, share} = rxjs.operators;
+        //     `
+        // }),
 
         !production && serve({
             contentBase: "public",

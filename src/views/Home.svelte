@@ -12,6 +12,7 @@
     let connect = () => {
         wsUrl = `${wsProtocol}://${wsHost}`;
         socket.connect(wsUrl);
+        socket.subscribe(cb);
     };
     let submitMsg = () => {
         start = new Date();
@@ -23,8 +24,14 @@
         const msgString = `(${timeDiff}ms) ${JSON.stringify(msg)}`;
         msgs = `${msgs}${msgString}<br>`;
     }
-    socket.setCallback(cb);
+    
     $: stateText = states[$socketState];
+
+    if (location.host.startsWith("localhost")) {
+        wsHost = "localhost:5001";
+    } else {
+        wsHost = "airhockey-socket.appspot.com";
+    }
 </script>
 
 <style>
@@ -77,6 +84,6 @@
 
     <datalist id="dtWsUrls">
         <option value="airhockey-socket.appspot.com"></option>
-        <option value="localhost:5000"></option>
+        <option value="localhost:5001"></option>
     </datalist>
 </article>
