@@ -2,6 +2,7 @@
     import socket from "../services/socketManager.js";
     import states from "../services/socketStates.js";
     import { socketState } from "../store";
+    import Link from "../components/Link.svelte";
     let msg = "hello";
     let msgs = "";
     let start;
@@ -65,6 +66,7 @@
             <button on:click="{socket.disconnect}">Disconnect</button>
             <input bind:value={msg} placeholder="message">
             <button on:click="{submitMsg}">Submit</button>
+            <Link page="{{ path: '/game', name: 'Game' }}" />
             <span>{wsUrl}</span>
         {:else}
             <p>{stateText}</p>
