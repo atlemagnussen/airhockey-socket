@@ -10,6 +10,7 @@
     let wsUrl;
     let wsHost;
     let connect = () => {
+        start = new Date();
         wsUrl = `${wsProtocol}://${wsHost}`;
         socket.connect(wsUrl);
         socket.subscribe(cb);
@@ -29,6 +30,7 @@
 
     if (location.host.startsWith("localhost:5000")) {
         wsHost = "localhost:5000";
+        wsProtocol = "ws";
     } else {
         wsHost = "airhockey-socket.appspot.com";
     }

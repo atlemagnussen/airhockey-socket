@@ -23,11 +23,12 @@ this.webSocketServer.on("connection", (ws, req) => {
         console.log(`forwardHeaders=${JSON.stringify(forwardHeaders)}`);
         ip = forwardHeaders.split(/\s*,\s*/)[0];
     }
-    ws.send(`Welcome ${ip}`);
+    
     const message = `Connected client ip ${ip}`;
-    console.log({ message });
+    ws.send(JSON.stringify({ data: message }));
+    console.log(message);
     ws.on("message", (msg) => {
-        ws.send(msg);
+        ws.send(JSON.stringify({data: msg}));
         // this.webSocketServer.clients.forEach((client) => {
         //     if (client.readyState === WebSocket.OPEN) { //client !== ws if not send to self
         //         client.send(msg);
