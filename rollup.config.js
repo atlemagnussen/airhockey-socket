@@ -35,6 +35,16 @@ export default {
             dedupe: ["svelte"]
         }),
         commonjs(),
+        // virtual({
+        //     "rxjs": `
+        //         import { fromEvent } from "rxjs";
+        //         export const { fromEvent } = rxjs;
+        //     `
+        //     "rxjs/operators": `
+        //        import rxjs from 'rxjs'; 
+        //        export const {filter, map, concatMap, tap, share} = rxjs.operators;
+        //     `
+        // }),
 
         // In dev mode, call `npm run start` once
         // the bundle has been generated

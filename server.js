@@ -6,7 +6,7 @@ const httpServer = require("http").createServer(app);
 const WebSocket = require("ws");
 const wwwpath = path.join(__dirname, "public");
 const wwwindex = path.join(wwwpath, "index.html");
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.use(express.static("public"));
 app.get("/", (req, res) => {
