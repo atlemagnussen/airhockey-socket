@@ -1,17 +1,21 @@
 import { socketState } from "../store";
-// import { fromEvent } from "rxjs";
+import { fromEvent } from "rxjs";
 
 let socket;
 let msgObservable;
 class SocketManager {
+    getDefaultWsUrl() {
+        let url = "ws://";
+        if (location.protocol === "https:") {
+            url = "wss://";
+        }
+        url += location.host;
+        return url;
+    }
     connect(url) {
         if (!socket || socket.readyState === socket.CLOSED) {
             if (!url) {
-                url = "ws://";
-                if (location.protocol === "https:") {
-                    url = "wss://";
-                }
-                url += location.host;
+                url = this.getDefaultWsUrl();
             }
             
             socket = new WebSocket(url);
@@ -29,10 +33,11 @@ class SocketManager {
                 socketState.set(socket.readyState);
             });
 
-            // msgObservable = fromEvent(socket, "message");
-            // msgObservable.subscribe(() => {
-            //     socketState.set(socket.readyState);
-            // });
+            msgObservable = fromEvent(socket, "message");
+            msgObservable.subscribe((msg) => {
+                socketState.set(socket.readyState);
+                console.log(msg);
+            });
         } else {
             console.log("web socket is already open. readyState=" + socket.readyState);
         }

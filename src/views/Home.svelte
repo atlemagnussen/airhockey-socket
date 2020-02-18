@@ -1,5 +1,5 @@
 <script>
-    import socket from "../services/socketManager.js";
+    import socket from "../services/socketRx.js";
     import states from "../services/socketStates.js";
     import { socketState } from "../store";
     import Link from "../components/Link.svelte";
@@ -21,14 +21,14 @@
     let cb = (msg) => {
         const end = new Date();
         const timeDiff = end - start;
-        const msgString = `(${timeDiff}ms) ${JSON.stringify(msg)}`;
+        const msgString = `(${timeDiff}ms) ${JSON.stringify(msg.data)}`;
         msgs = `${msgs}${msgString}<br>`;
     }
     
     $: stateText = states[$socketState];
 
-    if (location.host.startsWith("localhost")) {
-        wsHost = "localhost:5001";
+    if (location.host.startsWith("localhost:5000")) {
+        wsHost = "localhost:5000";
     } else {
         wsHost = "airhockey-socket.appspot.com";
     }

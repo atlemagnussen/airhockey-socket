@@ -6,7 +6,7 @@ const httpServer = require("http").createServer(app);
 const WebSocket = require("ws");
 const wwwpath = path.join(__dirname, "public");
 const wwwindex = path.join(wwwpath, "index.html");
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000;
 
 app.use(express.static("public"));
 app.get("/", (req, res) => {
@@ -23,7 +23,9 @@ this.webSocketServer.on("connection", (ws, req) => {
         console.log(`forwardHeaders=${JSON.stringify(forwardHeaders)}`);
         ip = forwardHeaders.split(/\s*,\s*/)[0];
     }
-    console.log(`Connected client ip ${ip}`);
+    ws.send(`Welcome ${ip}`);
+    const message = `Connected client ip ${ip}`;
+    console.log({ message });
     ws.on("message", (msg) => {
         ws.send(msg);
         // this.webSocketServer.clients.forEach((client) => {
