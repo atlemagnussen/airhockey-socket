@@ -28,7 +28,7 @@ this.webSocketServer.on("connection", (ws, req) => {
     ws.send(JSON.stringify({ data: message }));
     console.log(message);
     ws.on("message", (msg) => {
-        ws.send(JSON.stringify({data: msg}));
+        ws.send(msg);
         // this.webSocketServer.clients.forEach((client) => {
         //     if (client.readyState === WebSocket.OPEN) { //client !== ws if not send to self
         //         client.send(msg);

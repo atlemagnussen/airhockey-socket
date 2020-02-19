@@ -17,7 +17,7 @@
     };
     let submitMsg = () => {
         start = new Date();
-        socket.send(msg);
+        socket.send({data: msg});
     }
     let cb = (msg) => {
         const end = new Date();
