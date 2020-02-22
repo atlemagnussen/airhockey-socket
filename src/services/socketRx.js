@@ -34,8 +34,13 @@ class SocketRx {
         this.setState();
     }
     setState(state) {
-        if (!state && ws && ws._socket)
-            state = ws._socket.readyState;
+        if (!state) {
+            if (ws && ws._socket) {
+                state = ws._socket.readyState;
+            } else {
+                state = 3;
+            }
+        }
         socketState.set(state);
         console.log(`state=${state}`);
     }

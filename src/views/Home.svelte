@@ -25,7 +25,7 @@
         const msgString = `(${timeDiff}ms) ${JSON.stringify(msg.data)}`;
         msgs = `${msgs}${msgString}<br>`;
     }
-    
+    let disconnect = () => socket.close();
     $: stateText = states[$socketState];
 
     if (location.host.startsWith("localhost:5000")) {
@@ -72,7 +72,7 @@
             </select>
             <input bind:value={wsHost} autocomplete="true" list="dtWsUrls" class="ws-host">
         {:else if $socketState === 1}
-            <button on:click="{socket.disconnect}">Disconnect</button>
+            <button on:click="{disconnect}">Disconnect</button>
             <input bind:value={msg} placeholder="message">
             <button on:click="{submitMsg}">Submit</button>
             <Link page="{{ path: '/game', name: 'Game' }}" />

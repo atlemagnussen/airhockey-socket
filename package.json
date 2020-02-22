@@ -8,7 +8,7 @@
         "dev": "rollup -c -w",
         "devstart": "sirv public",
         "deploy": "gcloud app deploy",
-        "start": "node server.js"
+        "start": "node ./server/server.js"
     },
     "repository": {
         "type": "git",
