@@ -1,10 +1,14 @@
-const handleMsg = require("./messageHandler");
-const path = require("path");
-const express = require("express");
+import meta from "./meta.js";
+import handleMsg from "./messageHandler.js";
+import path from "path";
+import express from "express";
+import http from "http";
+import WebSocket from "ws";
+
 const app = express();
-const httpServer = require("http").createServer(app);
-const WebSocket = require("ws");
-const wwwpath = path.join(__dirname, "public");
+const httpServer = http.createServer(app);
+
+const wwwpath = path.join(meta.dirname, "public");
 const wwwindex = path.join(wwwpath, "index.html");
 const PORT = process.env.PORT || 5000;
 
@@ -14,8 +18,8 @@ app.get("/", (req, res) => {
 });
 
 // web socket
-this.webSocketServer = new WebSocket.Server({ server: httpServer });
-this.webSocketServer.on("connection", (ws, req) => {
+const webSocketServer = new WebSocket.Server({ server: httpServer });
+webSocketServer.on("connection", (ws, req) => {
     console.log(`req.connection.remoteAddress=${req.connection.remoteAddress}`);
     let ip = req.connection.remoteAddress;
     if (!ip) {
@@ -29,7 +33,7 @@ this.webSocketServer.on("connection", (ws, req) => {
     console.log(message);
     ws.on("message", (msg) => {
         // ws.send(msg);
-        this.webSocketServer.clients.forEach((client) => {
+        webSocketServer.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) { //client !== ws if not send to self
                 client.send(msg);
             }
@@ -42,7 +46,7 @@ this.webSocketServer.on("connection", (ws, req) => {
         console.log(`client closed, code=${code}, reason=${reason}`);
     });
 });
-this.webSocketServer.on("error", (err) => {
+webSocketServer.on("error", (err) => {
     console.log(err);
 });
 
