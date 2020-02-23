@@ -25,8 +25,8 @@ class SocketRx {
         ws.subscribe(fn);
         this.setState();
     }
-    send(msg) {
-        ws.next(msg);
+    sendMsg(msg) {
+        ws.next({type: "msg", data: msg});
         this.setState();
     }
     close() {
