@@ -28,8 +28,8 @@
     let disconnect = () => socket.close();
     $: stateText = states[$socketState];
 
-    if (location.host.startsWith("localhost:5000")) {
-        wsHost = "localhost:5000";
+    if (location.host.startsWith("localhost")) {
+        wsHost = location.host;
         wsProtocol = "ws";
     } else {
         wsHost = "airhockey-socket.appspot.com";
