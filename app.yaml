@@ -6,3 +6,10 @@ manual_scaling:
 
 network:
   session_affinity: true
+
+skip_files:
+- .eslintrc.json
+- .firebaserc
+- firebase.json
+- rollup.config.js
+- src/

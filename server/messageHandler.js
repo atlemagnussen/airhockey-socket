@@ -1,5 +1,6 @@
 const handler = (msg) => {
-    console.log(msg.type);
+    const msgObj = JSON.parse(msg);
+    console.log(msgObj.type);
 };
 
 export default handler;
