@@ -1,4 +1,4 @@
-
+const handleMsg = require("./messageHandler");
 const path = require("path");
 const express = require("express");
 const app = express();
@@ -28,13 +28,15 @@ this.webSocketServer.on("connection", (ws, req) => {
     ws.send(JSON.stringify({ data: message }));
     console.log(message);
     ws.on("message", (msg) => {
-        ws.send(msg);
-        // this.webSocketServer.clients.forEach((client) => {
-        //     if (client.readyState === WebSocket.OPEN) { //client !== ws if not send to self
-        //         client.send(msg);
-        //     }
-        // });
+        // ws.send(msg);
+        this.webSocketServer.clients.forEach((client) => {
+            if (client.readyState === WebSocket.OPEN) { //client !== ws if not send to self
+                client.send(msg);
+            }
+        });
+        handleMsg(msg);
         console.log(`received msg ${JSON.stringify(msg)}`);
+
     });
     ws.on("close", (code, reason) => {
         console.log(`client closed, code=${code}, reason=${reason}`);
