@@ -16,12 +16,6 @@ class SocketHandler {
             ws.send(JSON.stringify({ data: message }));
             console.log(message);
             ws.on("message", (msg) => {
-                // ws.send(msg);
-                wsServer.clients.forEach((client) => {
-                    if (client.readyState === WebSocket.OPEN) { //client !== ws if not send to self
-                        client.send(msg);
-                    }
-                });
                 this.incoming(msg);
             });
             ws.on("close", (code, reason) => {
@@ -34,7 +28,26 @@ class SocketHandler {
     }
     incoming(msg) {
         const msgObj = JSON.parse(msg);
-        console.log(msgObj.type);
+        if (!msgObj.type) {
+            console.log("no msg type!");
+            return;
+        }
+        switch (msgObj.type) {
+            case "newGame":
+                break;
+            case "joinGame":
+                break;
+            default:
+                this.sendToAll(msg);
+                break;
+        }
+    }
+    sendToAll(msg) {
+        this.wsServer.clients.forEach((client) => {
+            if (client.readyState === WebSocket.OPEN) { //client !== ws if not send to self
+                client.send(msg);
+            }
+        });
     }
 }
 
