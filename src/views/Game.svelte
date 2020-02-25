@@ -1,3 +1,7 @@
+<script>
+    
+</script>
+
 <style>
 #game-wrapper {
     width: 100vw;

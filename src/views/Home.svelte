@@ -1,31 +1,50 @@
 <script>
+    import { onDestroy } from "svelte";
     import socket from "../services/socketRx.js";
     import states from "../services/socketStates.js";
-    import { socketState } from "../store";
+    import msgParser from "../services/messageParser.js";
+    import { socketState, userName } from "../store";
     import Link from "../components/Link.svelte";
-    let msg = "hello";
+    let msg = "ping";
     let msgs = "";
     let start;
     let wsProtocol;
     let wsUrl;
     let wsHost;
+    let gameId;
+    let user;
+
+    const unsubscribe = userName.subscribe(value => {
+        user = value;
+    });
+    onDestroy(unsubscribe);
+
+    let cb = (msg) => {
+        let msgString = msgParser.regular(msg);
+        msgs = `${msgs}${msgString}<br>`;
+    };
     let connect = () => {
         start = new Date();
         wsUrl = `${wsProtocol}://${wsHost}`;
         socket.connect(wsUrl);
         socket.subscribe(cb);
+        userName.set(user);
     };
     let submitMsg = () => {
-        start = new Date();
-        socket.sendMsg(msg);
-    }
-    let cb = (msg) => {
-        const end = new Date();
-        const timeDiff = end - start;
-        const msgString = `(${timeDiff}ms) ${JSON.stringify(msg.data)}`;
-        msgs = `${msgs}${msgString}<br>`;
-    }
+        socket.sendMsg(msg, user);
+    };
+    let ping = () => {
+        socket.ping(user);
+    };
+    
     let disconnect = () => socket.close();
+    let createGame = () => {
+        if (!gameId) {
+            msgs = `${msgs}need game id!<br>`;
+            return;
+        }
+        socket.newGame(gameId);
+    };
     $: stateText = states[$socketState];
 
     if (location.host.startsWith("localhost")) {
@@ -66,15 +85,17 @@
     <div>
         {#if $socketState === 3}
             <button on:click="{connect}">Connect</button>
-            <select bind:value="{wsProtocol}">
+            <!-- <select bind:value="{wsProtocol}">
                 <option>wss</option>
                 <option>ws</option>
-            </select>
+            </select> -->
+            <input bind:value={user} class="ws-host">
             <input bind:value={wsHost} autocomplete="true" list="dtWsUrls" class="ws-host">
         {:else if $socketState === 1}
             <button on:click="{disconnect}">Disconnect</button>
-            <input bind:value={msg} placeholder="message">
-            <button on:click="{submitMsg}">Submit</button>
+            <input bind:value={gameId} placeholder="game id">
+            <button on:click="{createGame}">Create game</button>
+            <button on:click="{ping}">Ping</button>
             <Link page="{{ path: '/game', name: 'Game' }}" />
             <span>{wsUrl}</span>
         {:else}

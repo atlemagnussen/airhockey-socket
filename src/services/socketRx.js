@@ -1,6 +1,7 @@
 import { webSocket } from "rxjs/webSocket";
 import socketManager from "./socketManager.js";
 import { socketState } from "../store";
+import { utcNow } from "./dateStuff.js";
 
 let ws;
 
@@ -25,13 +26,42 @@ class SocketRx {
         ws.subscribe(fn);
         this.setState();
     }
-    sendMsg(msg) {
-        ws.next({type: "msg", data: msg});
+    sendMsg(msgString, user) {
+        let msg = {
+            type: "msg",
+            user,
+            data: {
+                msg: msgString,
+                utcTimeStamp: utcNow()
+            }
+        };
+        ws.next(msg);
+        this.setState();
+    }
+    ping(user) {
+        let msg = {
+            type: "ping",
+            user,
+            data: {
+                msg: "pong",
+                utcTimeStamp: utcNow()
+            }
+        };
+        ws.next(msg);
         this.setState();
     }
     close() {
         ws.complete();
         this.setState();
+    }
+    newGame(gameId) {
+        let msg = {
+            type: "newGame",
+            data: {
+                id: gameId
+            }
+        };
+        ws.next(msg);
     }
     setState(state) {
         if (!state) {

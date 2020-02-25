@@ -1,9 +1,12 @@
 import WebSocket from "ws";
+import Game from "./game.js";
+
+const games = [];
 
 class SocketHandler {
     constructor(wsServer) {
         this.wsServer = wsServer;
-        wsServer.on("connection", (ws, req) => {
+        wsServer.on("connection", (client, req) => {
             console.log(`req.connection.remoteAddress=${req.connection.remoteAddress}`);
             let ip = req.connection.remoteAddress;
             if (!ip) {
@@ -13,12 +16,12 @@ class SocketHandler {
             }
             
             const message = `Connected client ip ${ip}`;
-            ws.send(JSON.stringify({ data: message }));
+            client.send(JSON.stringify({ type: "connection", data: message }));
             console.log(message);
-            ws.on("message", (msg) => {
-                this.incoming(msg);
+            client.on("message", (msg) => {
+                this.incoming(client, msg);
             });
-            ws.on("close", (code, reason) => {
+            client.on("close", (code, reason) => {
                 console.log(`client closed, code=${code}, reason=${reason}`);
             });
         });
@@ -26,19 +29,21 @@ class SocketHandler {
             console.log(err);
         });
     }
-    incoming(msg) {
-        const msgObj = JSON.parse(msg);
-        if (!msgObj.type) {
+    incoming(client, msgString) {
+        console.log(msgString);
+        const msg = JSON.parse(msgString);
+        if (!msg.type) {
             console.log("no msg type!");
             return;
         }
-        switch (msgObj.type) {
+        switch (msg.type) {
             case "newGame":
+                this.addGame(client, msg.data);
                 break;
             case "joinGame":
                 break;
             default:
-                this.sendToAll(msg);
+                this.sendToAll(msgString);
                 break;
         }
     }
@@ -48,6 +53,10 @@ class SocketHandler {
                 client.send(msg);
             }
         });
+    }
+    addGame(client, data) {
+        const game = new Game(data.id, client);
+        games.push(game);
     }
 }
 

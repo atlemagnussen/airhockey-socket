@@ -8,12 +8,12 @@ import WebSocket from "ws";
 const app = express();
 const httpServer = http.createServer(app);
 
-const wwwpath = path.join(meta.dirname, "public");
+const wwwpath = path.join(meta.dirname, "..", "public");
 const wwwindex = path.join(wwwpath, "index.html");
 const PORT = process.env.PORT || 5000;
 
 app.use(express.static("public"));
-app.get("/", (req, res) => {
+app.get("*", (req, res) => {
     res.sendFile(wwwindex);
 });
 

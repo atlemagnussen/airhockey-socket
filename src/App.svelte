@@ -1,5 +1,5 @@
 <script>
-    import { curRoute } from "./store";
+    import { curRoute, userName } from "./store";
     import Circle from "./components/Circle.svelte";
     import SocketState from "./components/SocketState.svelte";
     import Link from "./components/Link.svelte";
@@ -44,6 +44,11 @@
             <Link page="{{ path: '/about', name: 'About' }}" />
             <SocketState></SocketState>
         </nav>
+        {#if $userName !== ""}
+            <span>{$userName}</span>
+        {:else}
+            <span></span>
+        {/if}
     </header>
 
     <Container />
