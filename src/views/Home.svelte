@@ -8,7 +8,7 @@
     let msg = "ping";
     let msgs = "";
     let start;
-    let wsProtocol;
+    let wsProtocol = "wss";
     let wsUrl;
     let wsHost;
     let gameId;

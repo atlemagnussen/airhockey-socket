@@ -12,4 +12,5 @@ skip_files:
 - .firebaserc
 - firebase.json
 - rollup.config.js
+- firebase-debug.log
 - src/
