@@ -12,6 +12,13 @@ class GameMain {
             p2: 0,
         };
     }
+    init() {
+        canvas.init();
+        this.createOffScreenCanvas();
+        this.world = World();
+        this.createField();
+        this.renderer();
+    }
     renderer() {
         const dt = 1 / 60;
         const world = this.world;
@@ -49,13 +56,7 @@ class GameMain {
         this.offscreenCtx.translate(w / 2, h / 2);
         this.offscreenCtx.scale(config.scale, config.scale);
     }
-    init() {
-        canvas.init();
-        this.createOffScreenCanvas();
-        this.world = World();
-        this.createField();
-        this.renderer();
-    }
+    
     createField() {
         const table = this.world.createBody();
 

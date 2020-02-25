@@ -17,7 +17,9 @@
 .game-wrapper.started canvas {
     position: absolute;
 }
-
+.game-wrapper.started button {
+    display: none;
+}
 #ui {
     z-index: 3;
 }
