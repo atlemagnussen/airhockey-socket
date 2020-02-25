@@ -1,10 +1,13 @@
 import config from "./config.js";
 import draw from "./draw.js";
 import field from "./field.js";
-const { Vec2, World, Edge, Circle } = planck;
+import { Vec2, Edge, } from "planck-js";
 
 class Canvas {
     constructor() {
+        this.staticObjects = [];
+    }
+    rigElements() {
         this.wrapper = document.getElementById("game-wrapper");
         this.background = document.getElementById("background");
         this.backgroundCtx = this.background.getContext("2d");
@@ -12,7 +15,6 @@ class Canvas {
         this.gameCtx = this.game.getContext("2d");
         this.ui = document.getElementById("ui");
         this.uiCtx = this.ui.getContext("2d");
-        this.staticObjects = [];
     }
     get gameCanvas() {
         return this.game;
@@ -21,6 +23,7 @@ class Canvas {
         return this.ui;
     }
     init() {
+        this.rigElements();
         this.resizeCanvas(true);
         this.scale(this.backgroundCtx);
         window.addEventListener("resize", () => this.resizeCanvas());

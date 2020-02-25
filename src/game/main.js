@@ -2,9 +2,9 @@ import canvas from "./canvas.js";
 import config from "./config.js";
 import draw from "./draw.js";
 
-const { Vec2, World, Edge, Circle } = planck;
+import { Vec2, World, Edge, Circle } from "planck-js";
 
-class PlanckTest {
+class GameMain {
     constructor() {
         this.dynamicObjects = [];
         this.score = {
@@ -254,4 +254,4 @@ class PlanckTest {
     }
 }
 
-export default new PlanckTest();
+export default new GameMain();
