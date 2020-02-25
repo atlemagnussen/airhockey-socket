@@ -1,4 +1,5 @@
 import { webSocket } from "rxjs/webSocket";
+import { fromEvent } from "rxjs";
 import socketManager from "./socketManager.js";
 import { socketState } from "../store";
 import { utcNow } from "./dateStuff.js";
@@ -73,6 +74,26 @@ class SocketRx {
         }
         socketState.set(state);
         console.log(`state=${state}`);
+    }
+    hookMouseEvents() {
+        const mousedownObs = fromEvent(document, "mousedown");
+        // const mousemoveObs = fromEvent(document, "mousemove");
+        // const mouseupObs = fromEvent(document, "mouseup");
+
+        mousedownObs.subscribe((evt) => {
+            const msg = {
+                type: "mouseDown",
+                events: []
+            };
+            const mts = evt.clientX ? [evt] : evt.touches;
+            for (let i = 0; i < mts.length; i++) {
+                const mt = mts[i];
+                const x = mt.clientX;
+                const y = mt.clientY;
+                msg.events.push({x, y});
+            }
+            ws.next(msg);
+        });
     }
 }
 

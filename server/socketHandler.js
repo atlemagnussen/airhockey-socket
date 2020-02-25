@@ -30,7 +30,7 @@ class SocketHandler {
         });
     }
     incoming(client, msgString) {
-        console.log(msgString);
+        console.log(`Raw:: ${msgString}`);
         const msg = JSON.parse(msgString);
         if (!msg.type) {
             console.log("no msg type!");
@@ -41,6 +41,10 @@ class SocketHandler {
                 this.addGame(client, msg.data);
                 break;
             case "joinGame":
+                break;
+            case "mouseDown":
+            case "mouseMove":
+            case "mouseUp":
                 break;
             default:
                 this.sendToAll(msgString);
