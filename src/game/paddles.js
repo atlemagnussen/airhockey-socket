@@ -37,10 +37,8 @@ export const create = (w, d, o) => {
 const setupEvents = () => {
     socketRx.hookMouseEvents();
     socketRx.subMouseDown(checkPaddle);
-    // document.body.addEventListener("mousedown", e => checkPaddle(e));
-    // window.addEventListener("mousemove", e => updatePosition(e));
-    // document.body.addEventListener("mouseup", e => releasePaddle(e));
-    // document.body.addEventListener("mouseout", e => releasePaddle(e));
+    socketRx.subMouseMove(updatePosition);
+    socketRx.subMouseUp(releasePaddle);
 
     // const gameEl = canvas.uiCanvas;
     // gameEl.addEventListener("touchstart", e => checkPaddle(e));
@@ -63,13 +61,13 @@ const paddleFixtureDefinition = {
 
 
 
-// const updatePosition = e => {
-//     if (this.activePad) {
-//         const vector = Vec2(e.movementX * config.force, e.movementY * config.force);
+const updatePosition = msg => {
+    if (activePad) {
+        const vector = Vec2(msg.event.x * config.force, msg.event.y * config.force);
 
-//         this.activePad.applyForce(vector, Vec2(this.activePad.getPosition()), true);
-//     }
-// };
+        activePad.applyForce(vector, Vec2(activePad.getPosition()), true);
+    }
+};
 
 
 const isPaddleInside = (pos, r, events) => {
@@ -127,12 +125,12 @@ const getMouseTouchPos = e => {
     const y = mt.clientY;
     return Vec2(x, y);
 };
-// const releasePaddle = () => {
-//     if (this.activePad) {
-//         this.activePad.selected = false;
-//     }
-//     this.activePad = null;
-// };
+const releasePaddle = () => {
+    if (activePad) {
+        activePad.selected = false;
+    }
+    activePad = null;
+};
 
 const scaleVec = vec => {
     return Vec2(vec.x * config.scale, vec.y * config.scale);

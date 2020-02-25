@@ -125,6 +125,18 @@ class SocketRx {
                 fn(msg);
         });
     }
+    subMouseMove(fn) {
+        ws.subscribe((msg) => {
+            if (msg.type === "mouseMove")
+                fn(msg);
+        });
+    }
+    subMouseUp(fn) {
+        ws.subscribe((msg) => {
+            if (msg.type === "mouseUp")
+                fn(msg);
+        });
+    }
 }
 
 export default new SocketRx();
