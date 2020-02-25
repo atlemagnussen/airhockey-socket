@@ -30,7 +30,6 @@ class SocketHandler {
         });
     }
     incoming(client, msgString) {
-        console.log(`Raw:: ${msgString}`);
         const msg = JSON.parse(msgString);
         if (!msg.type) {
             console.log("no msg type!");

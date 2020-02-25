@@ -5,6 +5,7 @@ import { socketState } from "../store";
 import { utcNow } from "./dateStuff.js";
 
 let ws;
+let stateSet = false;
 
 class SocketRx {
     connect(url) {
@@ -12,9 +13,11 @@ class SocketRx {
             url = socketManager.getDefaultWsUrl();
         }
         ws = webSocket(url);
-        ws.subscribe((msg) => {
-            console.log(`got msg: ${msg.data}`);
-            this.setState();
+        ws.subscribe(() => {
+            if (!stateSet) {
+                this.setState();
+                stateSet = true;
+            }
         },(err) => {
             console.log(`error=${JSON.stringify(err)}`);
             this.setState();
@@ -76,11 +79,13 @@ class SocketRx {
         console.log(`state=${state}`);
     }
     hookMouseEvents() {
-        const mousedownObs = fromEvent(document, "mousedown");
-        // const mousemoveObs = fromEvent(document, "mousemove");
-        // const mouseupObs = fromEvent(document, "mouseup");
+        const wrapper = document.getElementById("game-wrapper");
+        const mousedownObs = fromEvent(wrapper, "mousedown");
+        const mousemoveObs = fromEvent(wrapper, "mousemove");
+        const mouseupObs = fromEvent(wrapper, "mouseup");
+        const mouseoutObs = fromEvent(wrapper, "mouseout");
 
-        mousedownObs.subscribe((evt) => {
+        const down = (evt) => {
             const msg = {
                 type: "mouseDown",
                 events: []
@@ -93,6 +98,31 @@ class SocketRx {
                 msg.events.push({x, y});
             }
             ws.next(msg);
+        };
+        const move = (evt) => {
+            const x = evt.movementX;
+            const y = evt.movementY;
+            const msg = {
+                type: "mouseMove",
+                event: {x, y}
+            };
+            ws.next(msg);
+        };
+        const up = () => {
+            const msg = {
+                type: "mouseUp"
+            };
+            ws.next(msg);
+        };
+        mousedownObs.subscribe(down);
+        mousemoveObs.subscribe(move);
+        mouseupObs.subscribe(up);
+        mouseoutObs.subscribe(up);
+    }
+    subMouseDown(fn) {
+        ws.subscribe((msg) => {
+            if (msg.type === "mouseDown")
+                fn(msg);
         });
     }
 }

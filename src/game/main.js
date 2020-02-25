@@ -38,7 +38,7 @@ class GameMain {
         this.drawDynamic();
         window.requestAnimationFrame(() => this.renderer());
     }
-    
+
     drawDynamic() {
         for (let i = 0; i < this.dynamicObjects.length; i++) {
             const object = this.dynamicObjects[i];
@@ -121,7 +121,7 @@ class GameMain {
         });
     }
     createPaddles() {
-        paddles.create(this.world, this.dynamicObjects);
+        paddles.create(this.world, this.dynamicObjects, this.offscreenCanvas);
         window.addEventListener("resize", e => this.resizeOffscreenCanvas(e));
     }
     resizeOffscreenCanvas() {

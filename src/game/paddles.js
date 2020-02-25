@@ -1,13 +1,16 @@
 import { Vec2, Circle } from "planck-js";
 import socketRx from "../services/socketRx.js";
-// import config from "./config.js";
+import config from "./config.js";
 let world;
 let dynamicObjects;
+let offscreenCanvas;
 let paddle1, paddle2;
+let activePad;
 
-export const create = (w, d) => {
+export const create = (w, d, o) => {
     world = w;
     dynamicObjects = d;
+    offscreenCanvas = o;
 
     paddle1 = world.createBody(paddleBodyDefinition(Vec2(0, 16)));
     const paddle1Fix = paddle1.createFixture(Circle(1.5), paddleFixtureDefinition);
@@ -33,6 +36,7 @@ export const create = (w, d) => {
 
 const setupEvents = () => {
     socketRx.hookMouseEvents();
+    socketRx.subMouseDown(checkPaddle);
     // document.body.addEventListener("mousedown", e => checkPaddle(e));
     // window.addEventListener("mousemove", e => updatePosition(e));
     // document.body.addEventListener("mouseup", e => releasePaddle(e));
@@ -68,22 +72,21 @@ const paddleFixtureDefinition = {
 // };
 
 
-// const isPaddleInside = (pos, r, evt) => {
-//     const can = this.offscreenCanvas;
-//     const mts = evt.clientX ? [evt] : evt.touches;
-//     for (let i = 0; i < mts.length; i++) {
-//         const mt = mts[i];
-//         const x = mt.clientX - can.width / 2;
-//         const y = mt.clientY - can.height / 2;
-//         const y1 = y > pos.y - r;
-//         const y2 = y < pos.y + r;
-//         const x1 = x > pos.x - r;
-//         const x2 = x < pos.x + r;
-//         const isin = y1 && y2 && x1 && x2;
-//         if (isin) return true;
-//     }
-//     return false;
-// };
+const isPaddleInside = (pos, r, events) => {
+    const can = offscreenCanvas;
+    for (let i = 0; i < events.length; i++) {
+        const mt = events[i];
+        const x = mt.x - can.width / 2;
+        const y = mt.y - can.height / 2;
+        const y1 = y > pos.y - r;
+        const y2 = y < pos.y + r;
+        const x1 = x > pos.x - r;
+        const x2 = x < pos.x + r;
+        const isin = y1 && y2 && x1 && x2;
+        if (isin) return true;
+    }
+    return false;
+};
 
 // const touchMove = e => {
 //     if (this.activePad) {
@@ -98,32 +101,32 @@ const paddleFixtureDefinition = {
 //     e.preventDefault();
 // };
 
-// const checkPaddle = evt => {
-//     const pos1 = scaleVec(paddle1.getPosition());
-//     const pos2 = scaleVec(paddle2.getPosition());
-//     const radius =
-//         paddle1
-//             .getFixtureList()
-//             .getShape()
-//             .getRadius() * config.scale;
-//     if (isPaddleInside(pos1, radius, evt)) {
-//         this.activePad = paddle1;
-//         this.activePad.selected = true;
-//         this.activePadStartVec = getMouseTouchPos(evt);
-//     } else if (isPaddleInside(pos2, radius, evt)) {
-//         this.activePad = paddle2;
-//         this.activePad.selected = true;
-//         this.activePadStartVec = getMouseTouchPos(evt);
-//     } else {
-//         this.activePad = null;
-//     }
-// };
-// const getMouseTouchPos = e => {
-//     const mt = e.clientX ? e : e.touches[0];
-//     const x = mt.clientX;
-//     const y = mt.clientY;
-//     return Vec2(x, y);
-// };
+const checkPaddle = msg => {
+    const pos1 = scaleVec(paddle1.getPosition());
+    const pos2 = scaleVec(paddle2.getPosition());
+    const radius =
+        paddle1
+            .getFixtureList()
+            .getShape()
+            .getRadius() * config.scale;
+    if (isPaddleInside(pos1, radius, msg.events)) {
+        activePad = paddle1;
+        activePad.selected = true;
+        //this.activePadStartVec = getMouseTouchPos(evt);
+    } else if (isPaddleInside(pos2, radius, msg.events)) {
+        activePad = paddle2;
+        activePad.selected = true;
+        //this.activePadStartVec = getMouseTouchPos(evt);
+    } else {
+        activePad = null;
+    }
+};
+const getMouseTouchPos = e => {
+    const mt = e.clientX ? e : e.touches[0];
+    const x = mt.clientX;
+    const y = mt.clientY;
+    return Vec2(x, y);
+};
 // const releasePaddle = () => {
 //     if (this.activePad) {
 //         this.activePad.selected = false;
@@ -131,6 +134,6 @@ const paddleFixtureDefinition = {
 //     this.activePad = null;
 // };
 
-// const scaleVec = vec => {
-//     return Vec2(vec.x * config.scale, vec.y * config.scale);
-// };
+const scaleVec = vec => {
+    return Vec2(vec.x * config.scale, vec.y * config.scale);
+};

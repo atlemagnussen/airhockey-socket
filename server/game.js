@@ -7,7 +7,7 @@ class Game {
         player1.on("message", (msgString) => {
             const msg = JSON.parse(msgString);
             if (!moveTypes.includes(msg.type)) return;
-            console.log("on player 1");
+            this.player1.send(msgString);
         });
         player1.send(JSON.stringify({ type: "game", data: `You created new game ${id}` }));
     }
