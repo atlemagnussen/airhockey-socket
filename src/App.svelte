@@ -41,7 +41,6 @@
             <Link page="{{ path: '/', name: 'Home' }}">
                 <div class="logo">AirSockey</div>
             </Link>
-            <Link page="{{ path: '/about', name: 'About' }}" />
             <SocketState></SocketState>
         </nav>
         {#if $userName !== ""}
