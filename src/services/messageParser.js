@@ -14,7 +14,7 @@ class MessageParser {
                 msgString = `${msgString} ${msg.data.msg}`;
                 break;
             case "connection":
-                msgString = `(con) ${msg.data}`;
+                msgString = `(con) ${msg.data.msg}`;
                 break;
             case "gameCreated":
             case "gameRejected":

@@ -16,7 +16,10 @@ class SocketHandler {
             }
             
             const message = `Connected client ip ${ip}`;
-            client.send(JSON.stringify({ type: "connection", data: message }));
+            client.send(JSON.stringify({ type: "connection", data: {
+                msg: message,
+                games: Object.keys(games)
+            } }));
             console.log(message);
             client.on("message", (msg) => {
                 this.incoming(client, msg);

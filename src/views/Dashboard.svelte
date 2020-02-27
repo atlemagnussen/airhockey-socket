@@ -6,6 +6,7 @@
     let user;
     let gameId;
     let msgs = "";
+    let games = [];
     const unsubscribe = userName.subscribe(value => {
         user = value;
     });
@@ -18,6 +19,15 @@
         msgs = `${msgs}${msgString}<br>`;
         if (msg.type === "gameCreated") {
             gameStore.set({inGame: true, id: msg.data.id});
+        }
+        if (msg.type === "connection") {
+            if (msg.data.games) {
+                let g = msg.data.games;
+                if (Array.isArray(g) && g.length > 0) {
+                    games = [...g, g.length + 1];
+                }
+            }
+            games
         }
     };
     let submitMsg = () => {
@@ -57,3 +67,8 @@
 <button on:click="{ping}">Ping</button>
 
 <div class="text-output">{@html msgs}</div>
+<ul>
+{#each games as game, i}
+    <li>game</li>
+{/each}
+</ul>
