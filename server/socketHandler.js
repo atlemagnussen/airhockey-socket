@@ -1,7 +1,7 @@
 import WebSocket from "ws";
 import Game from "./game.js";
 
-const games = [];
+const games = {};
 
 class SocketHandler {
     constructor(wsServer) {
@@ -40,6 +40,7 @@ class SocketHandler {
                 this.addGame(client, msg.data);
                 break;
             case "joinGame":
+                this.joinGame(client, msg.data);
                 break;
             case "mouseDown":
             case "mouseMove":
@@ -59,7 +60,18 @@ class SocketHandler {
     }
     addGame(client, data) {
         const game = new Game(data.id, client);
-        games.push(game);
+        games[data.id] = game;
+    }
+    joinGame(client, data) {
+        const game = games[data.id];
+        if (!game) {
+            const rejectMsg = {
+                type: "gameRejected",
+                data
+            };
+            client.send(rejectMsg);
+        }
+        game.join(client);
     }
 }
 

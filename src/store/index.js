@@ -20,3 +20,4 @@ const createWritableLocalStorageStore = (key, startValue) => {
 };
 
 export const userName = createWritableLocalStorageStore("userName", "");
+export const gameStore = writable({inGame: false});

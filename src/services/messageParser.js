@@ -16,8 +16,10 @@ class MessageParser {
             case "connection":
                 msgString = `(con) ${msg.data}`;
                 break;
-            case "game":
-                msgString = `(game) ${msg.data}`;
+            case "gameCreated":
+            case "gameRejected":
+            case "gameJoined":
+                msgString = `(${msg.type}) ${msg.data}`;
                 break;
             default:
                 msgString = `uknown message type ${msg.type}`;

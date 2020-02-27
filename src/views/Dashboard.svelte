@@ -1,6 +1,6 @@
 <script>
     import { onMount, onDestroy } from "svelte";
-    import { userName } from "../store";
+    import { userName, gameStore } from "../store";
     import socket from "../services/socketRx.js";
     import msgParser from "../services/messageParser.js";
     let user;
@@ -16,6 +16,9 @@
     let cb = (msg) => {
         let msgString = msgParser.regular(msg);
         msgs = `${msgs}${msgString}<br>`;
+        if (msg.type === "gameCreated") {
+            gameStore.set({inGame: true, id: msg.data.id});
+        }
     };
     let submitMsg = () => {
         socket.sendMsg(msg, user);
