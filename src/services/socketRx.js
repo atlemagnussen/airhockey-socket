@@ -137,6 +137,12 @@ class SocketRx {
                 fn(msg);
         });
     }
+    getGames() {
+        const msg = {
+            type: "requestGames"
+        };
+        ws.next(msg);
+    }
 }
 
 export default new SocketRx();

@@ -12,6 +12,7 @@
     });
     onMount(() => {
         socket.subscribe(cb);
+        socket.getGames();
     });
     onDestroy(unsubscribe);
     let cb = (msg) => {
@@ -20,11 +21,12 @@
         if (msg.type === "gameCreated") {
             gameStore.set({inGame: true, id: msg.data.id});
         }
-        if (msg.type === "connection") {
+        if (msg.type === "gamesList" || msg.type === "connection") {
             if (msg.data.games) {
                 let g = msg.data.games;
                 if (Array.isArray(g) && g.length > 0) {
-                    games = [...g, g.length + 1];
+                    games = [...g];
+                    console.log(games);
                 }
             }
             games
@@ -69,6 +71,6 @@
 <div class="text-output">{@html msgs}</div>
 <ul>
 {#each games as game, i}
-    <li>game</li>
+    <li>{game}</li>
 {/each}
 </ul>

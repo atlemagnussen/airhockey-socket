@@ -21,6 +21,9 @@ class MessageParser {
             case "gameJoined":
                 msgString = `(${msg.type}) ${msg.data}`;
                 break;
+            case "gamesList":
+                msgString = `(${msg.type}) ${JSON.stringify(msg.data)}`;
+                break;
             default:
                 msgString = `uknown message type ${msg.type}`;
                 break;

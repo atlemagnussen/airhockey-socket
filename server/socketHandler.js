@@ -45,25 +45,32 @@ class SocketHandler {
             case "joinGame":
                 this.joinGame(client, msg.data);
                 break;
+            case "requestGames":
+                this.sendGames(client);
+                break;
             case "mouseDown":
             case "mouseMove":
             case "mouseUp":
                 break;
             default:
-                this.sendToAll(msgString);
+                this.broadcast(msgString);
                 break;
         }
     }
-    sendToAll(msg) {
+    broadcast(msg) {
+        let msgString = msg;
+        if (typeof msg !== "string")
+            msgString = JSON.stringify(msg);
         this.wsServer.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) { //client !== ws if not send to self
-                client.send(msg);
+                client.send(msgString);
             }
         });
     }
     addGame(client, data) {
         const game = new Game(data.id, client);
         games[data.id] = game;
+        this.broadcastGames();
     }
     joinGame(client, data) {
         const game = games[data.id];
@@ -75,6 +82,23 @@ class SocketHandler {
             client.send(rejectMsg);
         }
         game.join(client);
+    }
+    getGamesMsg() {
+        return { 
+            type: "gamesList",
+            data: {
+                games: Object.keys(games)
+            }
+        };
+    }
+    sendGames(client) {
+        const msg = this.getGamesMsg();
+        const msgString = JSON.stringify(msg);
+        client.send(msgString);
+    }
+    broadcastGames() {
+        const msg = this.getGamesMsg();
+        this.broadcast(msg);
     }
 }
 
