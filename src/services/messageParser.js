@@ -22,7 +22,8 @@ class MessageParser {
                 msgString = `(${msg.type}) ${msg.data}`;
                 break;
             case "gamesList":
-                msgString = `(${msg.type}) refreshed: length=${msg.data.games.length}`;
+                msgString = "";
+                // msgString = `(${msg.type}) refreshed: length=${msg.data.games.length}`;
                 break;
             default:
                 msgString = `uknown message type ${msg.type}`;

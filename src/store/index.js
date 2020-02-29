@@ -21,3 +21,30 @@ const createWritableLocalStorageStore = (key, startValue) => {
 
 export const userName = createWritableLocalStorageStore("userName", "");
 export const gameStore = writable({inGame: false});
+
+const createToastStore = () => {
+    const { subscribe, set } = writable([]);
+    let list = [];
+    const add = (options, timeout) => {
+        if (!timeout) timeout = 10;
+        list.push(options);
+        set(list);
+        setTimeout(() => {
+            const index = list.indexOf(options);
+            list.splice(index, 1);
+            set(list);
+        }, timeout * 1000);
+    };
+    const reset = () => {
+        list = [];
+        set(list);
+    };
+    
+    return {
+        subscribe,
+        add,
+        reset
+    };
+};
+
+export const toastStore = createToastStore();

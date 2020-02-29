@@ -4,6 +4,7 @@
     import SocketState from "./components/SocketState.svelte";
     import Link from "./components/Link.svelte";
     import Container from "./Container.svelte";
+    import Toast from "./components/Toast.svelte";
     import { onMount } from "svelte";
     onMount(() => {
         curRoute.set(window.location.pathname);
@@ -51,4 +52,5 @@
     </header>
 
     <Container />
+    <Toast />
 </main>

@@ -67,6 +67,9 @@
     .game {
         cursor: pointer;
     }
+    h4, li {
+        color: var(--cyan);
+    }
     @media only screen and (max-width: 768px) {
         .text-output {
             width: 100%;
