@@ -15,8 +15,8 @@ class GameMain {
     init() {
         canvas.init();
         this.createOffScreenCanvas();
-        this.world = World();
-        this.createField();
+        //this.world = World();
+        //this.createField();
         this.renderer();
     }
     renderer() {
