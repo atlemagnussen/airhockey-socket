@@ -18,11 +18,10 @@ class Game extends EventEmitter {
         this.player2 = player2;
         player2.send(JSON.stringify({ type: "gameJoined", data: { id: this.id } }));
         this.msgBoth({type: "gameReady", data: { id: this.id }});
-        this.setupMouseEvents();
         player2.on("close", () => {
             this.emit("close", this.id);
         });
-        this.world = World();
+        this.setupGame();
     }
     mouseDown(msg) {
         console.log(JSON.stringify(msg));
@@ -45,6 +44,11 @@ class Game extends EventEmitter {
             msg.player = 2;
             this.msgBoth(msg);
         });
+    }
+    setupGame() {
+        this.world = World();
+        this.setupMouseEvents();
+        this.createField();
     }
 }
 
