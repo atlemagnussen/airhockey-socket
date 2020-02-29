@@ -1,16 +1,24 @@
+import EventEmitter from "events";
 const moveTypes = ["mouseDown", "mouseMove", "mouseUp"];
 
-class Game {
+class Game extends EventEmitter {
     constructor(id, player1) {
+        super();
         this.id = id;
         this.player1 = player1;
         player1.send(JSON.stringify({ type: "gameCreated", data: { id } }));
+        player1.on("close", () => {
+            this.emit("close", this.id);
+        });
     }
     join(player2) {
         this.player2 = player2;
         player2.send(JSON.stringify({ type: "gameJoined", data: { id: this.id } }));
         this.msgBoth({type: "gameReady", data: { id: this.id }});
         this.setupMouseEvents();
+        player2.on("close", () => {
+            this.emit("close", this.id);
+        });
     }
     mouseDown(msg) {
         console.log(JSON.stringify(msg));

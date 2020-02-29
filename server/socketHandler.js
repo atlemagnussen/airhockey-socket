@@ -69,6 +69,9 @@ class SocketHandler {
     }
     addGame(client, data) {
         const game = new Game(data.id, client);
+        game.on("close", (id) => {
+            this.closeGame(id);
+        });
         games[data.id] = game;
         this.broadcastGames();
     }
@@ -82,6 +85,10 @@ class SocketHandler {
             client.send(rejectMsg);
         }
         game.join(client);
+    }
+    closeGame(id) {
+        Reflect.deleteProperty(games, id);
+        this.broadcastGames();
     }
     getGamesMsg() {
         return { 

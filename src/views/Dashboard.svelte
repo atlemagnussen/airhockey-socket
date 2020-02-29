@@ -24,7 +24,7 @@
         if (msg.type === "gamesList" || msg.type === "connection") {
             if (msg.data.games) {
                 let g = msg.data.games;
-                if (Array.isArray(g) && g.length > 0) {
+                if (Array.isArray(g)) {
                     games = [...g];
                     console.log(games);
                 }
