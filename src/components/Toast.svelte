@@ -27,7 +27,7 @@
     .left {
         left: -200px;
         animation: slide-left 0.5s forwards;
-        animation-delay: 0.1s;
+        animation-delay: 0s;
     }
     @keyframes slide-left {
         100% { left: 15px; }
@@ -35,7 +35,7 @@
     .right {
         right: -200px;
         animation: slide-right 0.5s forwards;
-        animation-delay: 0.1s;
+        animation-delay: 0s;
     }
     @keyframes slide-right {
         100% { right: 15px; }
@@ -54,12 +54,8 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        animation: fadein 2s;
+        animation: fadein 1s;
         opacity: 0.8;
-    }
-    .visible {
-        opacity: 1;
-
     }
     .info {
         background-color: var(--cyan-dark);

@@ -3,6 +3,7 @@ import { fromEvent } from "rxjs";
 import socketManager from "./socketManager.js";
 import { socketState } from "../store";
 import { utcNow } from "./dateStuff.js";
+import messageParser from "./messageParser.js";
 
 let ws;
 let stateSet = false;
@@ -14,7 +15,7 @@ class SocketRx {
         }
         ws = webSocket(url);
         ws.subscribe((msg) => {
-            console.log(msg);
+            messageParser.regular(msg);
             if (!stateSet) {
                 this.setState();
                 stateSet = true;

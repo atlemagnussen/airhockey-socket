@@ -6,7 +6,6 @@
     import msgParser from "../services/messageParser.js";
     let user;
     let gameId;
-    let msgs = "";
     let games = [];
     const unsubscribe = userName.subscribe(value => {
         user = value;
@@ -17,8 +16,6 @@
     });
     onDestroy(unsubscribe);
     let cb = (msg) => {
-        let msgString = msgParser.regular(msg);
-        msgs = `${msgs}${msgString}<br>`;
         if (msg.type === "gameCreated" || msg.type === "gameJoined") {
             let game = {
                 inGame: true,
@@ -47,7 +44,7 @@
     let disconnect = () => socket.close();
     let createGame = () => {
         if (!gameId) {
-            toastService.info("Need game id");
+            toastService.error("Need game id");
             return;
         }
         socket.newGame(gameId);
@@ -55,6 +52,9 @@
     let join = (id) => {
         socket.joinGame(id);
     }
+    let keyDown = (e) => {
+        if (e.keyCode == 13) createGame();
+    };
 </script>
 <style>
     .text-output {
@@ -77,12 +77,11 @@
         }
     }
 </style>
-<button on:click="{disconnect}">Disconnect</button>
-<input bind:value={gameId} placeholder="game id">
+<!-- <button on:click="{disconnect}">Disconnect</button> -->
+<input bind:value={gameId} placeholder="game id" on:keydown={keyDown}>
 <button on:click="{createGame}">Create game</button>
 <button on:click="{ping}">Ping</button>
 
-<div class="text-output">{@html msgs}</div>
 <h4>Existing games to join</h4>
 <ul>
 {#each games as game, i}

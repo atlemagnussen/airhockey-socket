@@ -1,4 +1,5 @@
 import { utcNow } from "../services/dateStuff.js";
+import toastService from "./toastService.js";
 
 class MessageParser {
     regular(msg) {
@@ -12,24 +13,33 @@ class MessageParser {
                 msgString = `(${timeDiff}ms)`;
                 msgString = `${msgString} (${msg.user})`;
                 msgString = `${msgString} ${msg.data.msg}`;
+                toastService.info(msgString);
                 break;
             case "connection":
-                msgString = `(con) ${msg.data.msg}`;
+                // msgString = `(con) ${msg.data.msg}`;
+                // toastService.info(msgString);
                 break;
             case "gameCreated":
-            case "gameRejected":
-            case "gameJoined":
-                msgString = `(${msg.type}) ${msg.data}`;
+                msgString = `game created: ${msg.data.id}`;
+                toastService.success(msgString);
                 break;
-            case "gamesList":
-                msgString = "";
+            case "gameRejected":
+                msgString = `game created: ${msg.data.id}`;
+                toastService.error(msgString);
+                break;
+            case "gameJoined":
+                msgString = `game joined: ${msg.data.id}`;
+                toastService.info(msgString);
+                break;
+            case "gameReady":
+                toastService.success("Ready to play!");
+                // toastService.info("games refreshed");
                 // msgString = `(${msg.type}) refreshed: length=${msg.data.games.length}`;
                 break;
             default:
                 msgString = `uknown message type ${msg.type}`;
                 break;
         }
-        return msgString;
     }
 }
 export default new MessageParser();

@@ -21,8 +21,7 @@
         userName.set(user);
     };
     let keyDown = (e) => {
-        if (e.keyCode == 13)
-            connect();
+        if (e.keyCode == 13) connect();
     };
     if (location.host.startsWith("localhost")) {
         wsHost = location.host;

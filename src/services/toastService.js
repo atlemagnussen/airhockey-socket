@@ -17,6 +17,14 @@ class ToastService {
         };
         toastStore.add(options);
     }
+    success(msg) {
+        const options = {
+            type: "success",
+            position: "center",
+            msg
+        };
+        toastStore.add(options);
+    }
 }
 
 export default new ToastService();
