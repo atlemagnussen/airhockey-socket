@@ -62,24 +62,24 @@
 
     }
     .info {
-        background-color: #0091ea;
+        background-color: var(--cyan-dark);
     }
     .success {
-        background-color: #4caf50;
+        background-color: var(--green);
     }
     .error {
-        background-color: #f44336;
+        background-color: var(--red-dark);
     }
     .default {
-        background-color: #353535;
+        background-color: var(--background-color);
     }
     .anim {
         opacity: 1;
         transform: translateY(0);
     }
     @keyframes pulse {
-        0% { background-color: #001F3F; }
-        100% { background-color: #FF4136; }
+        0% { background-color: var(--background-color); }
+        100% { background-color: var(--red-dark); }
     }
     @keyframes fadein {
         from { opacity: 0; }

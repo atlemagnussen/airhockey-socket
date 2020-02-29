@@ -26,7 +26,7 @@ const createToastStore = () => {
     const { subscribe, set } = writable([]);
     let list = [];
     const add = (options, timeout) => {
-        if (!timeout) timeout = 10;
+        if (!timeout) timeout = 5;
         list.push(options);
         set(list);
         setTimeout(() => {

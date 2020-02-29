@@ -1,6 +1,7 @@
 <script>
     import { onMount, onDestroy } from "svelte";
     import { userName, gameStore } from "../store";
+    import toastService from "../services/toastService.js";
     import socket from "../services/socketRx.js";
     import msgParser from "../services/messageParser.js";
     let user;
@@ -46,7 +47,7 @@
     let disconnect = () => socket.close();
     let createGame = () => {
         if (!gameId) {
-            msgs = `${msgs}need game id!<br>`;
+            toastService.info("Need game id");
             return;
         }
         socket.newGame(gameId);
