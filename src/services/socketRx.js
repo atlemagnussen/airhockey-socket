@@ -13,7 +13,8 @@ class SocketRx {
             url = socketManager.getDefaultWsUrl();
         }
         ws = webSocket(url);
-        ws.subscribe(() => {
+        ws.subscribe((msg) => {
+            console.log(msg);
             if (!stateSet) {
                 this.setState();
                 stateSet = true;

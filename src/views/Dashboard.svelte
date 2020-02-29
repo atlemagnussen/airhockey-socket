@@ -19,7 +19,12 @@
         let msgString = msgParser.regular(msg);
         msgs = `${msgs}${msgString}<br>`;
         if (msg.type === "gameCreated" || msg.type === "gameJoined") {
-            gameStore.set({inGame: true, id: msg.data.id});
+            let game = {
+                inGame: true,
+                started: false,
+                id: msg.data.id
+            };
+            gameStore.set(game);
         }
         if (msg.type === "gamesList" || msg.type === "connection") {
             if (msg.data.games) {
@@ -29,7 +34,6 @@
                     console.log(games);
                 }
             }
-            games
         }
     };
     let submitMsg = () => {
@@ -60,6 +64,9 @@
         flex-grow: 1;
         flex-shrink: 0;
     }
+    .game {
+        cursor: pointer;
+    }
     @media only screen and (max-width: 768px) {
         .text-output {
             width: 100%;
@@ -72,8 +79,9 @@
 <button on:click="{ping}">Ping</button>
 
 <div class="text-output">{@html msgs}</div>
+<h4>Existing games to join</h4>
 <ul>
 {#each games as game, i}
-    <li on:click={join(game)}>{game}</li>
+    <li class="game" on:click={join(game)}>{game}</li>
 {/each}
 </ul>

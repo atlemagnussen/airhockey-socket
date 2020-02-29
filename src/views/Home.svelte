@@ -1,6 +1,5 @@
 <script>
     import { gameStore } from "../store";
-    import socket from "../services/socketRx.js";
     import states from "../services/socketStates.js";
     import { socketState } from "../store";
     import Link from "../components/Link.svelte";

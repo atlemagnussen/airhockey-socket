@@ -28,5 +28,5 @@
     }
 </style>
 <button on:click="{connect}">Connect</button>
-<input bind:value={user} class="ws-host">
+<input bind:value={user} class="ws-host" placeholder="username">
 <input bind:value={wsHost} autocomplete="true" list="dtWsUrls" class="ws-host">
