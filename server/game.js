@@ -10,6 +10,7 @@ class Game {
         this.player2 = player2;
         player2.send(JSON.stringify({ type: "gameJoined", data: { id: this.id } }));
         this.msgBoth({type: "gameReady", data: { id: this.id }});
+        this.setupMouseEvents();
     }
     mouseDown(msg) {
         console.log(JSON.stringify(msg));

@@ -67,6 +67,15 @@ class SocketRx {
         };
         ws.next(msg);
     }
+    joinGame(gameId) {
+        let msg = {
+            type: "joinGame",
+            data: {
+                id: gameId
+            }
+        };
+        ws.next(msg);
+    }
     setState(state) {
         if (!state) {
             if (ws && ws._socket) {

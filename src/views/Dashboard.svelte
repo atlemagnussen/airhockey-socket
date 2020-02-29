@@ -18,7 +18,7 @@
     let cb = (msg) => {
         let msgString = msgParser.regular(msg);
         msgs = `${msgs}${msgString}<br>`;
-        if (msg.type === "gameCreated") {
+        if (msg.type === "gameCreated" || msg.type === "gameJoined") {
             gameStore.set({inGame: true, id: msg.data.id});
         }
         if (msg.type === "gamesList" || msg.type === "connection") {
@@ -47,6 +47,9 @@
         }
         socket.newGame(gameId);
     };
+    let join = (id) => {
+        socket.joinGame(id);
+    }
 </script>
 <style>
     .text-output {
@@ -71,6 +74,6 @@
 <div class="text-output">{@html msgs}</div>
 <ul>
 {#each games as game, i}
-    <li>{game}</li>
+    <li on:click={join(game)}>{game}</li>
 {/each}
 </ul>
