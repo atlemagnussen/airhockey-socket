@@ -15,6 +15,7 @@ class GameMain {
         canvas.init();
         this.createOffScreenCanvas();
         socket.subDynamics((m) => this.renderer(m));
+        socket.hookMouseEvents(this.offscreenCanvas);
     }
     renderer(msg) {
         const w = document.body.clientWidth,
@@ -42,13 +43,6 @@ class GameMain {
         this.offscreenCtx.scale(config.scale, config.scale);
     }
     
-    createField() {
-        //canvas.initBackground(table, statics, this.score);
-        // this.createPuck();
-        // this.createPaddles();
-        // this.world.on("begin-contact", e => this.handleContact(e));
-        //window.addEventListener("resize", e => this.resizeOffscreenCanvas(e));
-    }
     resizeOffscreenCanvas() {
         const w = document.body.clientWidth,
             h = document.body.clientHeight;

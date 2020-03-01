@@ -89,7 +89,7 @@ class SocketRx {
         socketState.set(state);
         console.log(`state=${state}`);
     }
-    hookMouseEvents() {
+    hookMouseEvents(canvas) {
         const wrapper = document.getElementById("game-wrapper");
         const mousedownObs = fromEvent(wrapper, "mousedown");
         const mousemoveObs = fromEvent(wrapper, "mousemove");
@@ -99,7 +99,9 @@ class SocketRx {
         const down = (evt) => {
             const msg = {
                 type: "mouseDown",
-                events: []
+                events: [],
+                width: canvas.width,
+                height: canvas.height
             };
             const mts = evt.clientX ? [evt] : evt.touches;
             for (let i = 0; i < mts.length; i++) {

@@ -1,4 +1,5 @@
 import * as Planck from "planck-js";
+import config from "./config.js";
 import field from "./field.js";
 const { World, Edge, Circle, Vec2 } = Planck.default;
 
@@ -123,21 +124,21 @@ class GameWorld {
             restitution: 0,
             filterCategoryBits: 0x0002,
         };
-        const paddle1 = this.world.createBody(paddleBodyDefinition(Vec2(0, 16)));
-        const paddle1Fix = paddle1.createFixture(Circle(1.5), paddleFixtureDefinition);
+        this.paddle1 = this.world.createBody(paddleBodyDefinition(Vec2(0, 16)));
+        const paddle1Fix = this.paddle1.createFixture(Circle(1.5), paddleFixtureDefinition);
         this.dynamicObjects.push({
             type: "circle",
-            body: paddle1,
+            body: this.paddle1,
             fixture: paddle1Fix,
             color: "green",
         });
 
-        const paddle2 = this.world.createBody(paddleBodyDefinition(Vec2(0, -16)));
-        const paddle2Fix = paddle2.createFixture(Circle(1.5), paddleFixtureDefinition);
+        this.paddle2 = this.world.createBody(paddleBodyDefinition(Vec2(0, -16)));
+        const paddle2Fix = this.paddle2.createFixture(Circle(1.5), paddleFixtureDefinition);
 
         this.dynamicObjects.push({
             type: "circle",
-            body: paddle2,
+            body: this.paddle2,
             fixture: paddle2Fix,
             color: "green",
         });
@@ -146,6 +147,58 @@ class GameWorld {
         const txt = `${scorer} scored!`;
         console.log(txt);
         this.puck.reset = true;
+    }
+    checkPaddle(msg) {
+        const pos1 = this.scaleVec(this.paddle1.getPosition());
+        const pos2 = this.scaleVec(this.paddle2.getPosition());
+        const radius =
+            this.paddle1
+                .getFixtureList()
+                .getShape()
+                .getRadius() * config.scale;
+        if (this.isPaddleInside(pos1, radius, msg.events)) {
+            this.activePad = this.paddle1;
+            this.activePad.selected = true;
+            console.log("pad1 inside");
+            //this.activePadStartVec = getMouseTouchPos(evt);
+        } else if (this.isPaddleInside(pos2, radius, msg.events, msg.width, msg.height)) {
+            this.activePad = this.paddle2;
+            this.activePad.selected = true;
+            console.log("pad2 inside");
+            //this.activePadStartVec = getMouseTouchPos(evt);
+        } else {
+            this.activePad = null;
+        }
+    }
+    isPaddleInside(pos, r, events, width, height) {
+        for (let i = 0; i < events.length; i++) {
+            const mt = events[i];
+            const x = mt.x - width / 2;
+            const y = mt.y - height / 2;
+            const y1 = y > pos.y - r;
+            const y2 = y < pos.y + r;
+            const x1 = x > pos.x - r;
+            const x2 = x < pos.x + r;
+            const isin = y1 && y2 && x1 && x2;
+            if (isin) return true;
+        }
+        return false;
+    }
+    scaleVec(vec) {
+        return Vec2(vec.x * config.scale, vec.y * config.scale);
+    }
+    releasePaddle() {
+        if (this.activePad) {
+            this.activePad.selected = false;
+        }
+        this.activePad = null;
+    }
+    updatePosition(msg) {
+        if (this.activePad) {
+            const vector = Vec2(msg.event.x * config.force, msg.event.y * config.force);
+    
+            this.activePad.applyForce(vector, Vec2(this.activePad.getPosition()), true);
+        }
     }
 }
 

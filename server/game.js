@@ -40,7 +40,7 @@ class Game extends EventEmitter {
             }
             if (!moveTypes.includes(msg.type)) return;
             msg.player = 1;
-            this.msgBoth(msg);
+            this.handleMouse(msg);
         });
         this.player2.on("message", (msgString) => {
             const msg = JSON.parse(msgString);
@@ -50,7 +50,7 @@ class Game extends EventEmitter {
             }
             if (!moveTypes.includes(msg.type)) return;
             msg.player = 2;
-            this.msgBoth(msg);
+            this.handleMouse(msg);
         });
     }
     setupWorld() {
@@ -73,6 +73,19 @@ class Game extends EventEmitter {
         };
         const msgString = JSON.stringify(msg);
         client.send(msgString);
+    }
+    handleMouse(msg) {
+        switch (msg.type) {
+            case "mouseDown":
+                this.gameWorld.checkPaddle(msg);
+                break;
+            case "mouseMove":
+                break;
+            case "mouseUp":
+                break;
+            default:
+                break;
+        }
     }
 }
 
