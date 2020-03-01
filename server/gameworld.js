@@ -10,14 +10,14 @@ class GameWorld {
         this.score = { p1: 0, p2: 0 };
         this.world = World();
     }
-    init(cbRenderer) {
+    init(cbRenderer) {cbRenderer;
         this.cbRenderer = cbRenderer;
         this.createField();
         this.createPuck();
         this.createPaddles();
-        // setInterval(() => {
-        //     this.renderer();
-        // }, 1000/60);
+        setInterval(() => {
+            this.renderer();
+        }, 1000/60);
     }
     renderer() {
         const dt = 1 / 60;

@@ -48,7 +48,7 @@ class Draw {
         ctx.arc(pos.x, pos.y, r, 0, 2 * Math.PI, false);
         ctx.lineWidth = 0.2;
         ctx.strokeStyle = "green";
-        if (o.body.selected) {
+        if (o.selected) {
             ctx.fillStyle = "darkcyan";
             ctx.strokeStyle = "cyan";
             ctx.fill();

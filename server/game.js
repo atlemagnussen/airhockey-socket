@@ -55,13 +55,15 @@ class Game extends EventEmitter {
     }
     setupWorld() {
         this.gameWorld = new GameWorld();
-        this.gameWorld.init(this.render);
+        this.gameWorld.init((d) => this.render(d));
     }
     render(dynObjects) {
-        // for(let i = 0; i < dynObjects.length; i++) {
-        //     const obj = dynObjects[i];
-        //     console.log("render");
-        // }
+        const dynamics = draw.getDataFromObjects(dynObjects);
+        const msg = {
+            type: "drawDynamics",
+            data: dynamics
+        };
+        this.msgBoth(msg);
     }
     sendStatics(client) {
         const statics = draw.getDataFromObjects(this.gameWorld.staticObjects);

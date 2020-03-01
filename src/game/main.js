@@ -14,21 +14,18 @@ class GameMain {
     init() {
         canvas.init();
         this.createOffScreenCanvas();
-        //this.world = World();
-        //this.createField();
-        this.renderer();
+        socket.subDynamics((m) => this.renderer(m));
     }
-    renderer() {
+    renderer(msg) {
         const w = document.body.clientWidth,
             h = document.body.clientHeight;
         this.offscreenCtx.clearRect(-w / 2, -h / 2, w, h);
-        this.drawDynamic();
-        //window.requestAnimationFrame(() => this.renderer());
+        this.drawDynamic(msg.data);
     }
 
-    drawDynamic() {
-        for (let i = 0; i < this.dynamicObjects.length; i++) {
-            const object = this.dynamicObjects[i];
+    drawDynamic(dynObjects) {
+        for (let i = 0; i < dynObjects.length; i++) {
+            const object = dynObjects[i];
             draw.draw(this.offscreenCtx, object);
         }
         canvas.updateGame(this.offscreenCanvas);
