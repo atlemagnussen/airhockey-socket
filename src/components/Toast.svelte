@@ -7,10 +7,14 @@
         unsubscribe = toastStore.subscribe(value => {
             toasts = value;
         });
-    })
+    });
     onDestroy(() => {
         unsubscribe();
-    })
+    });
+    let top = (i) => {
+        const distance = 15 + (i*44);
+        return `${distance}px`;
+    }
 </script>
 
 <style>
@@ -69,10 +73,6 @@
     .default {
         background-color: var(--background-color);
     }
-    .anim {
-        opacity: 1;
-        transform: translateY(0);
-    }
     @keyframes pulse {
         0% { background-color: var(--background-color); }
         100% { background-color: var(--red-dark); }
@@ -82,8 +82,8 @@
         to   { opacity: 0.8; }
     }
 </style>
-{#each toasts as toast}
-    <div class="toast-container top {toast.position}">
+{#each toasts as toast, i}
+    <div class="toast-container {toast.position}" style="top: {top(i)}">
         <div class="toast {toast.type}">{toast.msg}</div>
     </div>
 {/each}

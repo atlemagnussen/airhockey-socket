@@ -4,7 +4,7 @@ class ToastService {
     info(msg) {
         const options = {
             type: "info",
-            position: "left",
+            position: "right",
             msg
         };
         toastStore.add(options);
@@ -20,7 +20,7 @@ class ToastService {
     success(msg) {
         const options = {
             type: "success",
-            position: "center",
+            position: "right",
             msg
         };
         toastStore.add(options);
