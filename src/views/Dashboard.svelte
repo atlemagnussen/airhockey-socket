@@ -57,25 +57,13 @@
     };
 </script>
 <style>
-    .text-output {
-        color: white;
-        background: black;
-        width: 768px;
-        flex-basis: 70vh;
-        flex-grow: 1;
-        flex-shrink: 0;
-    }
     .game {
         cursor: pointer;
     }
     h4, li {
         color: var(--cyan);
     }
-    @media only screen and (max-width: 768px) {
-        .text-output {
-            width: 100%;
-        }
-    }
+
 </style>
 <!-- <button on:click="{disconnect}">Disconnect</button> -->
 <input bind:value={gameId} placeholder="game id" on:keydown={keyDown}>

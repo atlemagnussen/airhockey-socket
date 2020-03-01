@@ -13,6 +13,16 @@
             ],
             "program": "${workspaceFolder}/server/server.js",
             "runtimeArgs": ["--experimental-modules"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "test",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/server/test.js",
+            "runtimeArgs": ["--experimental-modules"]
         }
     ]
 }

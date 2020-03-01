@@ -1,7 +1,5 @@
 import EventEmitter from "events";
-import * as Planck from "planck-js";
-const { World } = Planck.default;
-
+import GameWorld from "./gameworld.js";
 const moveTypes = ["mouseDown", "mouseMove", "mouseUp"];
 
 class Game extends EventEmitter {
@@ -21,7 +19,8 @@ class Game extends EventEmitter {
         player2.on("close", () => {
             this.emit("close", this.id);
         });
-        this.setupGame();
+        this.setupMouseEvents();
+        this.setupWorld();
     }
     mouseDown(msg) {
         console.log(JSON.stringify(msg));
@@ -45,10 +44,15 @@ class Game extends EventEmitter {
             this.msgBoth(msg);
         });
     }
-    setupGame() {
-        this.world = World();
-        this.setupMouseEvents();
-        this.createField();
+    setupWorld() {
+        const gameWorld = new GameWorld();
+        this.world = gameWorld.init(this.render);
+    }
+    render(dynObjects) {
+        for(let i = 0; i < dynObjects.length; i++) {
+            const obj = dynObjects[i];
+            console.log("render");
+        }
     }
 }
 

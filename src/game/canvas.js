@@ -1,6 +1,6 @@
 import config from "./config.js";
 import draw from "./draw.js";
-import field from "./field.js";
+// import field from "./field.js";
 import { Vec2, Edge, } from "planck-js";
 
 class Canvas {
@@ -54,25 +54,25 @@ class Canvas {
         }
     }
     initBackground(table, statics, score) {
-        const tableMap = field.buildTableMap();
+        // const tableMap = field.buildTableMap();
         this.score = score;
-        tableMap.map(edge => {
-            const fixture = table.createFixture(Edge(Vec2(edge.from.x, edge.from.y), Vec2(edge.to.x, edge.to.y)));
-            this.staticObjects.push({
-                type: "edge",
-                body: table,
-                fixture,
-                color: "white",
-            });
-        });
-        for (let i = 0; i < statics.length; i++) {
-            this.staticObjects.push({
-                type: "edge",
-                body: table,
-                fixture: statics[i],
-                color: "white",
-            });
-        }
+        // tableMap.map(edge => {
+        //     const fixture = table.createFixture(Edge(Vec2(edge.from.x, edge.from.y), Vec2(edge.to.x, edge.to.y)));
+        //     this.staticObjects.push({
+        //         type: "edge",
+        //         body: table,
+        //         fixture,
+        //         color: "white",
+        //     });
+        // });
+        // for (let i = 0; i < statics.length; i++) {
+        //     this.staticObjects.push({
+        //         type: "edge",
+        //         body: table,
+        //         fixture: statics[i],
+        //         color: "white",
+        //     });
+        // }
         this.setBackground();
     }
     setBackground() {

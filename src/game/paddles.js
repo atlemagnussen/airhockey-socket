@@ -1,36 +1,12 @@
 import { Vec2, Circle } from "planck-js";
 import socketRx from "../services/socketRx.js";
 import config from "./config.js";
-let world;
-let dynamicObjects;
 let offscreenCanvas;
 let paddle1, paddle2;
 let activePad;
 
 export const create = (w, d, o) => {
-    world = w;
-    dynamicObjects = d;
     offscreenCanvas = o;
-
-    paddle1 = world.createBody(paddleBodyDefinition(Vec2(0, 16)));
-    const paddle1Fix = paddle1.createFixture(Circle(1.5), paddleFixtureDefinition);
-    dynamicObjects.push({
-        type: "circle",
-        body: paddle1,
-        fixture: paddle1Fix,
-        color: "green",
-    });
-
-    paddle2 = world.createBody(paddleBodyDefinition(Vec2(0, -16)));
-    const paddle2Fix = paddle2.createFixture(Circle(1.5), paddleFixtureDefinition);
-
-    dynamicObjects.push({
-        type: "circle",
-        body: paddle2,
-        fixture: paddle2Fix,
-        color: "green",
-    });
-
     setupEvents();
 };
 
@@ -46,19 +22,6 @@ const setupEvents = () => {
     // gameEl.addEventListener("touchend", e => releasePaddle(e));
     // gameEl.addEventListener("touchcancel", e => releasePaddle(e));
 };
-
-const paddleBodyDefinition = position => ({
-    type: "dynamic",
-    position: position,
-    bullet: false,
-    linearDamping: 10,
-    angularDamping: 1,
-});
-const paddleFixtureDefinition = {
-    restitution: 0,
-    filterCategoryBits: 0x0002,
-};
-
 
 
 const updatePosition = msg => {
