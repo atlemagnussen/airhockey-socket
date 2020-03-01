@@ -1,8 +1,4 @@
-import { Vec2, Circle } from "planck-js";
-import socketRx from "../services/socketRx.js";
-import config from "./config.js";
-
-let activePad;
+import { Vec2 } from "planck-js";
 
 export const create = () => {
     setupEvents();

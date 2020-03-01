@@ -16,6 +16,7 @@ class GameMain {
         this.createOffScreenCanvas();
         socket.subDynamics((m) => this.renderer(m));
         socket.hookMouseEvents(this.offscreenCanvas);
+        window.addEventListener("resize", e => this.resizeOffscreenCanvas(e));
     }
     renderer(msg) {
         const w = document.body.clientWidth,
