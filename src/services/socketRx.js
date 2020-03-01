@@ -91,14 +91,15 @@ class SocketRx {
     }
     hookMouseEvents(canvas) {
         const wrapper = document.getElementById("game-wrapper");
+        const uiCanvas = document.getElementById("ui");
         const mousedownObs = fromEvent(wrapper, "mousedown");
         const mousemoveObs = fromEvent(wrapper, "mousemove");
         const mouseupObs = fromEvent(wrapper, "mouseup");
         const mouseoutObs = fromEvent(wrapper, "mouseout");
-        const touchstartObs = fromEvent(wrapper, "touchstart");
-        const touchmoveObs = fromEvent(wrapper, "touchmove");
-        const touchendObs = fromEvent(wrapper, "touchend");
-        const touchcancelObs = fromEvent(wrapper, "touchcancel");
+        const touchstartObs = fromEvent(uiCanvas, "touchstart");
+        const touchmoveObs = fromEvent(uiCanvas, "touchmove");
+        const touchendObs = fromEvent(uiCanvas, "touchend");
+        const touchcancelObs = fromEvent(uiCanvas, "touchcancel");
 
         const down = (evt) => {
             const msg = {
@@ -142,6 +143,7 @@ class SocketRx {
                     event: {x, y}
                 };
                 ws.next(msg);
+                this.activePadStartVec = this.getMouseTouchPos(evt);
             }
             evt.preventDefault();
         };

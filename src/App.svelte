@@ -1,10 +1,11 @@
 <script>
-    import { curRoute, userName } from "./store";
+    import { curRoute, userName, gameStore } from "./store";
     import Circle from "./components/Circle.svelte";
     import SocketState from "./components/SocketState.svelte";
     import Link from "./components/Link.svelte";
     import Container from "./Container.svelte";
     import Toast from "./components/Toast.svelte";
+    import Game from "./views/Game.svelte";
     import { onMount } from "svelte";
     onMount(() => {
         curRoute.set(window.location.pathname);
@@ -37,20 +38,24 @@
 
 <svelte:window on:popstate="{handlerBackNavigation}" />
 <main>
-    <header>
-        <nav>
-            <Link page="{{ path: '/', name: 'Home' }}">
-                <div class="logo">AirSockey</div>
-            </Link>
-            <SocketState></SocketState>
-        </nav>
-        {#if $userName !== ""}
-            <span>{$userName}</span>
-        {:else}
-            <span></span>
-        {/if}
-    </header>
+    {#if $gameStore.inGame}
+        <Game></Game>
+    {:else}
+        <header>
+            <nav>
+                <Link page="{{ path: '/', name: 'Home' }}">
+                    <div class="logo">AirSockey</div>
+                </Link>
+                <SocketState></SocketState>
+            </nav>
+            {#if $userName !== ""}
+                <span>{$userName}</span>
+            {:else}
+                <span></span>
+            {/if}
+        </header>
 
-    <Container />
+        <Container />
+    {/if}
     <Toast />
 </main>
