@@ -95,6 +95,10 @@ class SocketRx {
         const mousemoveObs = fromEvent(wrapper, "mousemove");
         const mouseupObs = fromEvent(wrapper, "mouseup");
         const mouseoutObs = fromEvent(wrapper, "mouseout");
+        const touchstartObs = fromEvent(wrapper, "touchstart");
+        const touchmoveObs = fromEvent(wrapper, "touchmove");
+        const touchendObs = fromEvent(wrapper, "touchend");
+        const touchcancelObs = fromEvent(wrapper, "touchcancel");
 
         const down = (evt) => {
             const msg = {
@@ -110,6 +114,7 @@ class SocketRx {
                 const y = mt.clientY;
                 msg.events.push({x, y});
             }
+            this.activePadStartVec = this.getMouseTouchPos(evt);
             ws.next(msg);
         };
         const move = (evt) => {
@@ -127,10 +132,27 @@ class SocketRx {
             };
             ws.next(msg);
         };
+        const touchMove = (evt) => {
+            if (this.activePadStartVec) {
+                const pos = this.getMouseTouchPos(evt);
+                const x = -(this.activePadStartVec.x - pos.x);
+                const y = -(this.activePadStartVec.y - pos.y);
+                const msg = {
+                    type: "touchMove",
+                    event: {x, y}
+                };
+                ws.next(msg);
+            }
+            evt.preventDefault();
+        };
         mousedownObs.subscribe(down);
         mousemoveObs.subscribe(move);
         mouseupObs.subscribe(up);
         mouseoutObs.subscribe(up);
+        touchstartObs.subscribe(down);
+        touchmoveObs.subscribe(touchMove);
+        touchendObs.subscribe(up);
+        touchcancelObs.subscribe(up);
     }
     subMouseDown(fn) {
         ws.subscribe((msg) => {
@@ -149,6 +171,12 @@ class SocketRx {
             if (msg.type === "mouseUp")
                 fn(msg);
         });
+    }
+    getMouseTouchPos(e) {
+        const mt = e.clientX ? e : e.touches[0];
+        const x = mt.clientX;
+        const y = mt.clientY;
+        return {x, y};
     }
     getGames() {
         const msg = {

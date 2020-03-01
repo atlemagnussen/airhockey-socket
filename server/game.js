@@ -1,7 +1,7 @@
 import EventEmitter from "events";
 import GameWorld from "./gameworld.js";
 import draw from "./draw.js";
-const moveTypes = ["mouseDown", "mouseMove", "mouseUp"];
+const moveTypes = ["mouseDown", "mouseMove", "mouseUp", "touchMove"];
 
 class Game extends EventEmitter {
     constructor(id, player1) {
@@ -80,6 +80,7 @@ class Game extends EventEmitter {
                 this.gameWorld.checkPaddle(msg);
                 break;
             case "mouseMove":
+            case "touchMove":
                 this.gameWorld.updatePosition(msg);
                 break;
             case "mouseUp":

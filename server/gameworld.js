@@ -3,7 +3,6 @@ import config from "./config.js";
 import field from "./field.js";
 const { World, Edge, Circle, Vec2 } = Planck.default;
 
-
 class GameWorld {
     constructor() {
         this.staticObjects = [];
@@ -159,13 +158,9 @@ class GameWorld {
         if (this.isPaddleInside(pos1, radius, msg.events, msg.width, msg.height)) {
             this.activePad = this.paddle1;
             this.activePad.selected = true;
-            console.log("pad1 inside");
-            //this.activePadStartVec = getMouseTouchPos(evt);
         } else if (this.isPaddleInside(pos2, radius, msg.events, msg.width, msg.height)) {
             this.activePad = this.paddle2;
             this.activePad.selected = true;
-            console.log("pad2 inside");
-            //this.activePadStartVec = getMouseTouchPos(evt);
         } else {
             this.activePad = null;
         }
@@ -196,8 +191,8 @@ class GameWorld {
     updatePosition(msg) {
         if (this.activePad) {
             const vector = Vec2(msg.event.x * config.force, msg.event.y * config.force);
-    
             this.activePad.applyForce(vector, Vec2(this.activePad.getPosition()), true);
+            this.activePadStartVec = { x: msg.event.x, y: msg.event.y };
         }
     }
 }
