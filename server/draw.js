@@ -36,6 +36,7 @@ class Draw {
         const shape = o.fixture.getShape();
         s.r = shape.getRadius();
         s.pos = o.body.getPosition();
+        s.selected = o.body.selected;
     }
     polygon(s, o) {
         const shape = o.getShape();

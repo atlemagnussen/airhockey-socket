@@ -156,7 +156,7 @@ class GameWorld {
                 .getFixtureList()
                 .getShape()
                 .getRadius() * config.scale;
-        if (this.isPaddleInside(pos1, radius, msg.events)) {
+        if (this.isPaddleInside(pos1, radius, msg.events, msg.width, msg.height)) {
             this.activePad = this.paddle1;
             this.activePad.selected = true;
             console.log("pad1 inside");
