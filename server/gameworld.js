@@ -15,10 +15,9 @@ class GameWorld {
         this.createField();
         this.createPuck();
         this.createPaddles();
-        setInterval(() => {
-            this.renderer();
-        }, 1000/60);
-        return this.world;
+        // setInterval(() => {
+        //     this.renderer();
+        // }, 1000/60);
     }
     renderer() {
         const dt = 1 / 60;

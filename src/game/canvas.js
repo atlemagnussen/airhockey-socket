@@ -1,7 +1,6 @@
 import config from "./config.js";
 import draw from "./draw.js";
-// import field from "./field.js";
-import { Vec2, Edge, } from "planck-js";
+import socket from "../services/socketRx.js";
 
 class Canvas {
     constructor() {
@@ -26,6 +25,7 @@ class Canvas {
         this.rigElements();
         this.resizeCanvas(true);
         this.scale(this.backgroundCtx);
+        socket.subStatics(this.drawTable);
         window.addEventListener("resize", () => this.resizeCanvas());
         document.addEventListener("dblclick", e => this.fullscreen(e));
     }
@@ -54,31 +54,14 @@ class Canvas {
         }
     }
     initBackground(table, statics, score) {
-        // const tableMap = field.buildTableMap();
         this.score = score;
-        // tableMap.map(edge => {
-        //     const fixture = table.createFixture(Edge(Vec2(edge.from.x, edge.from.y), Vec2(edge.to.x, edge.to.y)));
-        //     this.staticObjects.push({
-        //         type: "edge",
-        //         body: table,
-        //         fixture,
-        //         color: "white",
-        //     });
-        // });
-        // for (let i = 0; i < statics.length; i++) {
-        //     this.staticObjects.push({
-        //         type: "edge",
-        //         body: table,
-        //         fixture: statics[i],
-        //         color: "white",
-        //     });
-        // }
+        
         this.setBackground();
     }
     setBackground() {
         this.setBackgroundColor();
         this.setScore();
-        this.drawTable();
+        socket.getStatics();
     }
     setBackgroundColor() {
         const w = this.background.width,
@@ -88,9 +71,9 @@ class Canvas {
         ctx.fillStyle = "black";
         ctx.fillRect(-w / 2, -h / 2, w, h);
     }
-    drawTable() {
-        for (let i = 0; i < this.staticObjects.length; i++) {
-            const o = this.staticObjects[i];
+    drawTable(msg) {
+        for (let i = 0; i < msg.data.length; i++) {
+            const o = msg.data[i];
             draw.draw(this.backgroundCtx, o);
         }
     }

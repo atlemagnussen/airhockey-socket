@@ -33,22 +33,17 @@ class Draw {
         }
     }
     edge(ctx, o) {
-        const shape = o.fixture.getShape();
         //const r = shape.getRadius();
         ctx.strokeStyle = o.color;
         ctx.lineWidth = 0.1;
         ctx.beginPath();
-        ctx.moveTo(shape.m_vertex1.x, shape.m_vertex1.y);
-        ctx.lineTo(shape.m_vertex2.x, shape.m_vertex2.y);
+        ctx.moveTo(o.m_vertex1.x, o.m_vertex1.y);
+        ctx.lineTo(o.m_vertex2.x, o.m_vertex2.y);
         ctx.stroke();
     }
     circle(ctx, o) {
-        const shape = o.fixture.getShape();
-        // const isActive = o.body.isActive();
-        // console.log(`isActive=${isActive}`);
-        const r = shape.getRadius();
-        // const c = shape.getCenter();
-        const pos = o.body.getPosition();
+        const r = o.r;
+        const pos = o.pos;
         ctx.beginPath();
         ctx.arc(pos.x, pos.y, r, 0, 2 * Math.PI, false);
         ctx.lineWidth = 0.2;
@@ -60,20 +55,15 @@ class Draw {
         }
         ctx.stroke();
     }
-    polygon(ctx, fix) {
-        const shape = fix.getShape();
-        //const r = shape.getRadius();
-        const numVerts = shape.m_vertices.length;
-        if (numVerts === 0) throw new Error("No verticies?");
-
+    polygon(ctx, o) {
         ctx.fillStyle = "#f00";
         ctx.beginPath();
-        const pos = fix.getBody().getPosition();
-        const firstVert = shape.getVertex(0);
+        const pos = o.pos;
+        const firstVert = o.firstVert;
         ctx.moveTo(firstVert.x + pos.x, firstVert.y + pos.y);
 
-        for (let i = 1; i < numVerts; i++) {
-            const vert = shape.getVertex(i);
+        for (let i = 1; i < o.verts.length; i++) {
+            const vert = o.verts[i];
             ctx.lineTo(vert.x + pos.x, vert.y + pos.y);
         }
         ctx.closePath();

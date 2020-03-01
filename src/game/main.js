@@ -1,8 +1,7 @@
 import canvas from "./canvas.js";
 import config from "./config.js";
 import draw from "./draw.js";
-import * as paddles from "./paddles.js";
-import { Vec2, Edge, Circle } from "planck-js";
+import socket from "../services/socketRx.js";
 
 class GameMain {
     constructor() {

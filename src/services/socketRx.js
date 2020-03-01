@@ -154,6 +154,24 @@ class SocketRx {
         };
         ws.next(msg);
     }
+    getStatics() {
+        const msg = {
+            type: "requestStatics"
+        };
+        ws.next(msg);
+    }
+    subStatics(fn) {
+        ws.subscribe((msg) => {
+            if (msg.type == "drawStatics")
+                fn(msg);
+        });
+    }
+    subDynamics(fn) {
+        ws.subscribe((msg) => {
+            if (msg.type == "drawDynamics")
+                fn(msg);
+        });
+    }
 }
 
 export default new SocketRx();

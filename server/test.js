@@ -1,4 +1,5 @@
 import GameWorld from "./gameworld.js";
+import draw from "./draw.js";
 
 console.log("test world");
 const render = (dynObjects) => {
@@ -8,6 +9,8 @@ const render = (dynObjects) => {
     }
 };
 const gameworld = new GameWorld();
-const world = gameworld.init(render);
+gameworld.init(render);
+const statics = draw.getDataFromObjects(gameworld.staticObjects);
+const dynamics = draw.getDataFromObjects(gameworld.dynamicObjects);
 
-console.log("after world");
+console.log(dynamics);

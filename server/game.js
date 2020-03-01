@@ -1,5 +1,6 @@
 import EventEmitter from "events";
 import GameWorld from "./gameworld.js";
+import draw from "./draw.js";
 const moveTypes = ["mouseDown", "mouseMove", "mouseUp"];
 
 class Game extends EventEmitter {
@@ -33,26 +34,43 @@ class Game extends EventEmitter {
     setupMouseEvents() {
         this.player1.on("message", (msgString) => {
             const msg = JSON.parse(msgString);
+            if (msg.type === "requestStatics") {
+                this.sendStatics(this.player1);
+                return;
+            }
             if (!moveTypes.includes(msg.type)) return;
             msg.player = 1;
             this.msgBoth(msg);
         });
         this.player2.on("message", (msgString) => {
             const msg = JSON.parse(msgString);
+            if (msg.type === "requestStatics") {
+                this.sendStatics(this.player2);
+                return;
+            }
             if (!moveTypes.includes(msg.type)) return;
             msg.player = 2;
             this.msgBoth(msg);
         });
     }
     setupWorld() {
-        const gameWorld = new GameWorld();
-        this.world = gameWorld.init(this.render);
+        this.gameWorld = new GameWorld();
+        this.gameWorld.init(this.render);
     }
     render(dynObjects) {
-        for(let i = 0; i < dynObjects.length; i++) {
-            const obj = dynObjects[i];
-            console.log("render");
-        }
+        // for(let i = 0; i < dynObjects.length; i++) {
+        //     const obj = dynObjects[i];
+        //     console.log("render");
+        // }
+    }
+    sendStatics(client) {
+        const statics = draw.getDataFromObjects(this.gameWorld.staticObjects);
+        const msg = {
+            type: "drawStatics",
+            data: statics
+        };
+        const msgString = JSON.stringify(msg);
+        client.send(msgString);
     }
 }
 
