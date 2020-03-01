@@ -5,6 +5,10 @@ import socket from "../services/socketRx.js";
 class Canvas {
     constructor() {
         this.staticObjects = [];
+        this.score = {
+            p1: 0,
+            p2: 0
+        };
     }
     rigElements() {
         this.wrapper = document.getElementById("game-wrapper");
@@ -25,9 +29,10 @@ class Canvas {
         this.rigElements();
         this.resizeCanvas(true);
         this.scale(this.backgroundCtx);
-        socket.subStatics(this.drawTable);
+        socket.subStatics((m) => this.drawTable(m));
         window.addEventListener("resize", () => this.resizeCanvas());
         document.addEventListener("dblclick", e => this.fullscreen(e));
+        this.initBackground();
     }
     setSize(ctx, w, h) {
         ctx.width = w;
@@ -53,8 +58,8 @@ class Canvas {
             this.setBackground();
         }
     }
-    initBackground(table, statics, score) {
-        this.score = score;
+    initBackground() {
+        // this.score = score;
         
         this.setBackground();
     }

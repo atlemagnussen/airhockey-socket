@@ -7,7 +7,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "dbg server",
+            "name": "server",
             "skipFiles": [
                 "<node_internals>/**"
             ],

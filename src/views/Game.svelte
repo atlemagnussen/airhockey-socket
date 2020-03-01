@@ -21,28 +21,12 @@
     let start = () => {
         started = true;
         main.init();
-        fullscreen();
     };
     
     let cb = (msg) => {
         if (msg.type === "gameReady") {
             game.started = true;
             gameStore.set(game);
-        }
-    };
-    let fullscreen = () => {
-        const el = document.getElementById("game-wrapper");
-        if (el.requestFullscreen) {
-            el.requestFullscreen();
-        } else if (el.mozRequestFullScreen) {
-            /* Firefox */
-            el.mozRequestFullScreen();
-        } else if (el.webkitRequestFullscreen) {
-            /* Chrome, Safari and Opera */
-            el.webkitRequestFullscreen();
-        } else if (el.msRequestFullscreen) {
-            /* IE/Edge */
-            el.msRequestFullscreen();
         }
     };
 </script>
