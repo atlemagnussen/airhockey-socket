@@ -47,13 +47,18 @@ class Draw {
         ctx.beginPath();
         ctx.arc(pos.x, pos.y, r, 0, 2 * Math.PI, false);
         ctx.lineWidth = 0.2;
-        ctx.strokeStyle = "green";
-        if (o.selected) {
-            ctx.fillStyle = "darkcyan";
-            ctx.strokeStyle = "cyan";
+        if (o.fill) {
+            ctx.fillStyle = o.color;
             ctx.fill();
+        } else {
+            ctx.strokeStyle = "green";
+            if (o.selected) {
+                ctx.fillStyle = "darkcyan";
+                ctx.strokeStyle = "cyan";
+                ctx.fill();
+            }
+            ctx.stroke();
         }
-        ctx.stroke();
     }
     polygon(ctx, o) {
         ctx.fillStyle = "#f00";

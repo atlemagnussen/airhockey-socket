@@ -5,8 +5,10 @@ class Draw {
             const o = objects[i];
             const s = {
                 type: o.type,
-                color: o.color
+                color: o.color,
             };
+            if (o.fill)
+                s.fill = true;
             switch (o.type) {
                 case "edge":
                     this.edge(s, o);

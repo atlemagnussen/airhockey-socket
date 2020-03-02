@@ -109,6 +109,7 @@ class GameWorld {
             body: this.puck,
             fixture: puckFixture,
             color: "green",
+            fill: true
         });
     }
     createPaddles() {
