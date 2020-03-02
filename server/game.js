@@ -84,7 +84,7 @@ class Game extends EventEmitter {
                 this.gameWorld.updatePosition(msg);
                 break;
             case "mouseUp":
-                this.gameWorld.releasePaddle();
+                this.gameWorld.releasePaddle(msg);
                 break;
             default:
                 break;

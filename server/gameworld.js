@@ -149,21 +149,19 @@ class GameWorld {
         this.puck.reset = true;
     }
     checkPaddle(msg) {
-        const pos1 = this.scaleVec(this.paddle1.getPosition());
-        const pos2 = this.scaleVec(this.paddle2.getPosition());
-        const radius =
-            this.paddle1
-                .getFixtureList()
-                .getShape()
-                .getRadius() * config.scale;
-        if (this.isPaddleInside(pos1, radius, msg.events, msg.width, msg.height)) {
-            this.activePad = this.paddle1;
-            this.activePad.selected = true;
-        } else if (this.isPaddleInside(pos2, radius, msg.events, msg.width, msg.height)) {
-            this.activePad = this.paddle2;
-            this.activePad.selected = true;
+        let paddle;
+        if (msg.player === 1) {
+            paddle = this.paddle1;
         } else {
-            this.activePad = null;
+            paddle = this.paddle2;
+        }
+        const pos = this.scaleVec(paddle.getPosition());
+        const radius =
+        paddle.getFixtureList().getShape().getRadius() * config.scale;
+        if (this.isPaddleInside(pos, radius, msg.events, msg.width, msg.height)) {
+            paddle.selected = true;
+        } else {
+            paddle.selected = false;
         }
     }
     isPaddleInside(pos, r, events, width, height) {
@@ -183,17 +181,23 @@ class GameWorld {
     scaleVec(vec) {
         return Vec2(vec.x * config.scale, vec.y * config.scale);
     }
-    releasePaddle() {
-        if (this.activePad) {
-            this.activePad.selected = false;
+    releasePaddle(msg) {
+        if (msg.player === 1) {
+            this.paddle1.selected = false;
+        } else {
+            this.paddle2.selected = false;
         }
-        this.activePad = null;
     }
     updatePosition(msg) {
-        if (this.activePad) {
+        let paddle;
+        if (msg.player === 1) {
+            paddle = this.paddle1;
+        } else {
+            paddle = this.paddle2;
+        }
+        if (paddle.selected) {
             const vector = Vec2(msg.event.x * config.force, msg.event.y * config.force);
-            this.activePad.applyForce(vector, Vec2(this.activePad.getPosition()), true);
-            this.activePadStartVec = { x: msg.event.x, y: msg.event.y };
+            paddle.applyForce(vector, Vec2(paddle.getPosition()), true);
         }
     }
 }
