@@ -9,6 +9,8 @@ RUN npm install
 
 COPY . .
 
+RUN npm run build
+
 EXPOSE 5000
 
-CMD [ "node" "--experimental-modules" "./server/server.js" ]
+CMD [ "node", "--experimental-modules", "./server/server.js" ]
