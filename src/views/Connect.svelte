@@ -23,7 +23,7 @@
     let keyDown = (e) => {
         if (e.keyCode == 13) connect();
     };
-    if (location.host.startsWith("localhost")) {
+    if (location.host.startsWith("localhost") || location.host.startsWith("192")) {
         wsHost = location.host;
         wsProtocol = "ws";
     } else {
@@ -37,4 +37,4 @@
 </style>
 <button on:click="{connect}">Connect</button>
 <input bind:value={user} class="ws-host" placeholder="username" on:keydown={keyDown}>
-<!-- <input bind:value={wsHost} autocomplete="true" list="dtWsUrls" class="ws-host"> -->
+<input bind:value={wsHost} autocomplete="true" list="dtWsUrls" class="ws-host">
