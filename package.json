@@ -33,7 +33,7 @@
         "@reactivex/rxjs": "^6.5.5",
         "express": "^4.17.1",
         "planck-js": "^0.3.19",
-        "ws": "^7.3.0"
+        "ws": "^7.4.6"
     },
     "devDependencies": {
         "@rollup/plugin-commonjs": "^11.1.0",
