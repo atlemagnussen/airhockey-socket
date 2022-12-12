@@ -31,7 +31,7 @@
     "homepage": "https://github.com/atlemagnussen/airhockey-socket#readme",
     "dependencies": {
         "@reactivex/rxjs": "^6.5.5",
-        "express": "^4.17.1",
+        "express": "^4.17.3",
         "planck-js": "^0.3.19",
         "ws": "^7.3.0"
     },
